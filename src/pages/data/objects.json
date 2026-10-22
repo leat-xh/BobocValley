@@ -1,0 +1,34 @@
+[
+  {
+    "pos": {"x": 200, "y": 200},
+    "interactable": true,
+    "type": "house",
+    "width": 40,
+    "height": 40,
+    "scale": 4,
+    "solid": true,
+    "collision": {
+      "offsetX": 40,
+      "offsetY": 60,
+      "width": 40,
+      "height": 20
+    },
+    "path": "/firsthouse"
+  },
+  {
+    "pos": {"x": 600, "y": 300},
+    "interactable": true,
+    "type": "roundcastle",
+    "width": 40,
+    "height": 40,
+    "scale": 4,
+    "solid": true,
+    "collision": {
+      "offsetX": 50,
+      "offsetY": 50,
+      "width": 40,
+      "height": 20
+    },
+    "path": "/secondhouse"
+  }
+]
