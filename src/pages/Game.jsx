@@ -16,7 +16,7 @@ export default function Game() {
         const savedPos = localStorage.getItem("playerPos");
         return {
             pos: savedPos ? JSON.parse(savedPos) : 
-                { x: 200, y: 400 },
+                { x: 974, y: 840 },
             scale: 3,
             width: 40,
             height: 40,
@@ -146,6 +146,7 @@ export default function Game() {
                     top: obj.pos.y,
                     zIndex: playerIsInFront ? 0 : 2,
                 }}
+                transparancy={!playerIsInFront && isNear(player, obj, 10)}
             />
         ) : (
             <Object
