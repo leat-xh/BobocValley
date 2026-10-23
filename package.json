@@ -14,8 +14,10 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@types/node": "^26.6.5",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "oxlint": "^1.88.0"
+    "oxlint": "^1.88.0",
+    "typescript": "5.8.2"
   }
 }
