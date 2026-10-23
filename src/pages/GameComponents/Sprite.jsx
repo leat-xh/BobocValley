@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function Sprite({size=0, width, height, row, col, imgSrc, scaleNumber, animationFrames, flipHorizontal=true, animationOnRow=false}) {
+function Sprite({size=0, width, height, row, col, imgSrc, scale, animationFrames, flipHorizontal=true, animationOnRow=false, style}) {
 
   const [frame, setFrame] = useState(0);
 
@@ -25,19 +25,20 @@ function Sprite({size=0, width, height, row, col, imgSrc, scaleNumber, animation
         animationId = requestAnimationFrame(animate);
 
         return () => cancelAnimationFrame(animationId);
-    }, [animationFrames, row]);
+    }, [animationFrames, row, animationOnRow]);
 
   return (
     <div
       style={{
-        width: size,
-        height: size,
-        scale: scaleNumber,
+        width: (size ? size : width),
+        height: (size ? size : height),
+        scale: scale,
         transform: `scaleX(${flipHorizontal? 1 : -1})`,
         backgroundImage: `url(${imgSrc})`,
         backgroundRepeat: "no-repeat",
-        backgroundPosition: `${-(col + (animationOnRow ? 0 : frame)) * (size ? width : size)}px ${-(row + (animationOnRow ? frame : 0)) * (size ? height : size)}px`,
-        imageRendering: "pixelated"
+        backgroundPosition: `${-(col + (animationOnRow ? 0 : frame)) * (size ? size : width)}px ${-(row + (animationOnRow ? frame : 0)) * (size ? size : height)}px`,
+        imageRendering: "pixelated",
+        ...style
       }}
     />
   );

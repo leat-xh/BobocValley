@@ -2,6 +2,7 @@ import objectsData from "./data/objects.json"
 import imageRegistry from "./data/imageRegistry"
 import Player from './GameComponents/Player'
 import Object from './GameComponents/Object'
+import Sprite from './GameComponents/Sprite'
 import bgImg from './GameComponents/assets/background.png'
 import { isColliding, isNear} from "./GameComponents/utils/collision";
 
@@ -63,7 +64,7 @@ export default function Game() {
         let animationId;
 
         function update() {
-            const speed = 2;
+            const speed = 2.5;
             let dx = 0;
             let dy = 0;
 
@@ -129,32 +130,32 @@ export default function Game() {
         isIdle={isIdle} 
         direction={direction}
       />
-
       {objectsData.map((obj, i) => {
-        const playerIsInFront = (player.pos.y > obj.pos.y + obj.height);
-        if (!obj.animation) {
-            return (
+        const playerIsInFront =
+            player.pos.y > obj.pos.y + obj.height / 1.5;
+
+        return obj.animation ? (
+            <Sprite
+                key={i}
+                {...obj}
+                imgSrc={imageRegistry[obj.type]}
+                flipHorizontal={true}
+                style={{
+                    position: "absolute",
+                    left: obj.pos.x,
+                    top: obj.pos.y,
+                    zIndex: playerIsInFront ? 0 : 2,
+                }}
+            />
+        ) : (
             <Object
                 key={i}
                 {...obj}
                 imgSrc={imageRegistry[obj.type]}
                 zIndex={playerIsInFront ? 0 : 2}
             />
-            )
-        }
-        else {
-            <Sprite 
-                key={i}
-                size={size}
-                row={isIdle ? 0 : 1} 
-                col={0} 
-                scaleNumber={scale} 
-                imgSrc={chickenImg} 
-                animationFrames={isIdle ? 8 : 4} 
-                flipHorizontal={direction === "right"}
-            />
-
-        }
+        );
     })}
+
     </div>)
 }

@@ -15,7 +15,7 @@ function Player({pos, isIdle, direction, size, scale}) {
                 size={size}
                 row={isIdle ? 0 : 1} 
                 col={0} 
-                scaleNumber={scale} 
+                scale={scale} 
                 imgSrc={chickenImg} 
                 animationFrames={isIdle ? 8 : 4} 
                 flipHorizontal={direction === "right"}

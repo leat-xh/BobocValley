@@ -34,13 +34,19 @@
     "animation": false
   },
   {
-    "pos": {"x": 400, "y": 400},
+    "pos": {"x": 100, "y": 500},
     "interactable": false,
     "type": "tree",
     "width": 64,
     "height": 80,
-    "scale": 1,
-    "solid": false,
+    "scale": 2,
+    "solid": true,
+    "collision": {
+      "offsetX": 80,
+      "offsetY": 80,
+      "width": 0,
+      "height": 0
+    },
     "animation": true,
     "animationOnRow": true ,
     "animationFrames": 13,
