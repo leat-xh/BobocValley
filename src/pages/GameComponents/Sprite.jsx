@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function Sprite({size, row, col, imgSrc, scaleNumber, animationFrames, flipHorizontal=true}) {
+function Sprite({size, row, col, imgSrc, scaleNumber, animationFrames, flipHorizontal=true, animationOnRow=false}) {
 
   const [frame, setFrame] = useState(0);
 
@@ -35,8 +35,8 @@ function Sprite({size, row, col, imgSrc, scaleNumber, animationFrames, flipHoriz
         scale: scaleNumber,
         transform: `scaleX(${flipHorizontal? 1 : -1})`,
         backgroundImage: `url(${imgSrc})`,
-        backgroundPosition: `${-(col + frame) * size}px ${-row * size}px`,
         backgroundRepeat: "no-repeat",
+        backgroundPosition: `${-(col + (animationOnRow ? 0 : frame)) * size}px ${-(row + (animationOnRow ? frame : 0)) * size}px`,
         imageRendering: "pixelated"
       }}
     />

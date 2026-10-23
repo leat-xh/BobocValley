@@ -2,6 +2,7 @@ import objectsData from "./data/objects.json"
 import imageRegistry from "./data/imageRegistry"
 import Player from './GameComponents/Player'
 import Object from './GameComponents/Object'
+import bgImg from './GameComponents/assets/background.png'
 import { isColliding, isNear} from "./GameComponents/utils/collision";
 
 import { useState, useEffect, useRef } from 'react'
@@ -111,7 +112,15 @@ export default function Game() {
     }, [player.pos]);
 
     return (
-    <>
+    <div
+    style={{
+        backgroundImage: `url(${bgImg})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'top left',
+        backgroundSize: 'auto',
+        width: '100vw',
+        height: '100vh',
+    }}>
     
       <Player 
         size={player.size} 
@@ -132,5 +141,5 @@ export default function Game() {
         />
         )
     })}
-    </>)
+    </div>)
 }
