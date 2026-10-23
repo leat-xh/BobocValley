@@ -13,7 +13,8 @@
       "width": 40,
       "height": 20
     },
-    "path": "/firsthouse"
+    "path": "/firsthouse",
+    "animation": false
   },
   {
     "pos": {"x": 600, "y": 300},
@@ -29,6 +30,21 @@
       "width": 40,
       "height": 20
     },
-    "path": "/secondhouse"
+    "path": "/secondhouse",
+    "animation": false
+  },
+  {
+    "pos": {"x": 400, "y": 400},
+    "interactable": false,
+    "type": "tree",
+    "width": 64,
+    "height": 80,
+    "scale": 1,
+    "solid": false,
+    "animation": true,
+    "animationOnRow": true ,
+    "animationFrames": 13,
+    "row": 0,
+    "col": 0
   }
 ]

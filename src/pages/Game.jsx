@@ -132,14 +132,29 @@ export default function Game() {
 
       {objectsData.map((obj, i) => {
         const playerIsInFront = (player.pos.y > obj.pos.y + obj.height);
-        return (
-        <Object
-            key={i}
-            {...obj}
-            imgSrc={imageRegistry[obj.type]}
-            zIndex={playerIsInFront ? 0 : 2}
-        />
-        )
+        if (!obj.animation) {
+            return (
+            <Object
+                key={i}
+                {...obj}
+                imgSrc={imageRegistry[obj.type]}
+                zIndex={playerIsInFront ? 0 : 2}
+            />
+            )
+        }
+        else {
+            <Sprite 
+                key={i}
+                size={size}
+                row={isIdle ? 0 : 1} 
+                col={0} 
+                scaleNumber={scale} 
+                imgSrc={chickenImg} 
+                animationFrames={isIdle ? 8 : 4} 
+                flipHorizontal={direction === "right"}
+            />
+
+        }
     })}
     </div>)
 }
