@@ -1,12 +1,34 @@
-function Object({ pos, imgSrc, width, height, scale, zIndex}) {
+function Object({ pos, imgSrc, width, height, scale, zIndex, nickname = "" }) {
     
     return (
-        <div style={{
-            position: "absolute",
-            left: pos.x,
-            top: pos.y,
-            zIndex: zIndex
-        }}>
+        <div
+            style={{
+                position: "absolute",
+                left: pos.x,
+                top: pos.y,
+                zIndex: zIndex,
+            }}
+        >
+            {nickname && (
+                <div
+                    style={{
+                        position: "absolute",
+                        top: -25,
+                        left: "50%",
+                        transform: "translateX(-50%) translateY(50%)",
+                        backgroundColor: "black",
+                        color: "white",
+                        padding: "4px 8px",
+                        borderRadius: 4,
+                        whiteSpace: "nowrap",
+                        zIndex: 999,
+                        opacity: 0.75
+                    }}
+                >
+                    {nickname}
+                </div>
+            )}
+
             <div
                 style={{
                     width: width,
@@ -18,7 +40,7 @@ function Object({ pos, imgSrc, width, height, scale, zIndex}) {
                 }}
             />
         </div>
-    )
+    );
 }
 
 export default Object;

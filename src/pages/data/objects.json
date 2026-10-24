@@ -1,5 +1,6 @@
 [
   {
+    "nickname": "Leatxh",
     "pos": {"x": 110, "y": 660},
     "interactable": true,
     "type": "house",
@@ -33,6 +34,7 @@
     "animation": false
   },
   {
+    "nickname": "victor",
     "pos": {"x": 1200, "y": 800},
     "interactable": true,
     "type": "tent",
@@ -46,7 +48,7 @@
       "width": 20,
       "height": -30
     },
-    "path": "/thirdhouse",
+    "path": "/tent",
     "animation": false
   },
   {
@@ -243,6 +245,7 @@
     "col": 3
   },
   {
+    "nickname": "laurentiu",
     "pos": {"x": 850, "y": 180},
     "interactable": true,
     "type": "squarecastle",

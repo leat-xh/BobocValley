@@ -133,6 +133,7 @@ export default function Game() {
       {objectsData.map((obj, i) => {
         const playerIsInFront =
             player.pos.y > obj.pos.y + obj.height / 1.5;
+        
 
         return obj.animation ? (
             <Sprite
