@@ -4,9 +4,13 @@ import bgImg from "./TentComponents/assets/tentbg.jpeg"
 import shineImg from "./TentComponents/assets/shine.png"
 import ampImg from "./TentComponents/assets/amp.png"
 import amp2Img from "./TentComponents/assets/amp2.png"
+import guitarImg from "./TentComponents/assets/guitar.png"
+import chickenGuitarImg from "./TentComponents/assets/chicken_guitar.png"
 import catImg from "./TentComponents/assets/cat.png"
 import cat2Img from "./TentComponents/assets/cat2.png"
 import Modal from "./Components/Modal"
+import Poster from "./TentComponents/Poster"
+import RhythmGame from "./TentComponents/RhythmGame"
 
 export default function Tent() {
     const [collectedRing, setCollectedRing] = useState(false);
@@ -18,6 +22,8 @@ export default function Tent() {
 
     const [ampModalOpen, setAmpModalOpen] = useState(false);
     const [ampOn, setAmpOn] = useState(false);
+
+    const [guitarModalOpen, setGuitarModalOpen] = useState(false);
     
     return (
         <div
@@ -99,6 +105,47 @@ export default function Tent() {
                     </div>
                 </>
             </Modal>
+
+            <div
+                style={{
+                    position: "absolute",
+                    left: 1240,
+                    top: 330,
+                    backgroundImage: `url(${guitarImg})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'top left',
+                    backgroundSize: 'cover',
+                    width: 376,
+                    height: 663,
+                    transform: "scale(0.55) rotate(-10deg)",
+                    cursor: "pointer" 
+                }}
+                onClick={() => {
+                    if (!collectedPick) {
+                        alert("You need to find the pick")
+                        return;
+                    }
+                    if (!ampOn) {
+                        alert("You need to turn on the amplifier")
+                        return;
+                    }
+                    setGuitarModalOpen(true);
+                }}
+            ></div>
+            <Modal isOpen={guitarModalOpen} onClose={() => setGuitarModalOpen(false)}>
+                <div
+                    style={{
+                        backgroundImage: `url(${chickenGuitarImg})`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'top left',
+                        backgroundSize: 'cover',
+                        width: 565,
+                        height: 442,
+                    }} 
+                >
+                </div>
+                <RhythmGame/>
+            </Modal>
             {!collectedPick && (
             <div
                 style={{
@@ -158,92 +205,7 @@ export default function Tent() {
 
                 ></div>
 
-
-<div
-    style={{
-        position: "absolute",
-        left: 100,
-        top: 310,
-        width: 540,
-        padding: 24,
-        background: "#e60012",
-        color: "black",
-        transform: `
-            perspective(800px)
-            rotateX(10deg)
-            rotateY(25deg)
-            rotateZ(-4deg)
-            scale(0.5)
-        `,
-        transformOrigin: "center",
-        boxShadow: "12px 12px 0px black",
-        border: "5px solid white",
-        fontFamily: "'Arial Black', Impact, sans-serif",
-        zIndex: 10,
-    }}
->
-    {/* Main headline */}
-    <div
-        style={{
-            background: "black",
-            color: "white",
-            padding: "8px 14px",
-            fontSize: 48,
-            fontWeight: 900,
-            textTransform: "uppercase",
-            letterSpacing: -2,
-            transform: "rotate(1deg)",
-            marginBottom: 18,
-            display: "inline-block",
-        }}
-    >
-        SEIZE THE DAY.
-    </div>
-
-    {/* Quote strips */}
-    {[
-        "Because believe it or not,",
-        "each and every one of us in this room",
-        "is one day going to stop breathing,",
-        "turn cold and DIE.",
-    ].map((line, i) => (
-        <div
-            key={i}
-            style={{
-                background: i === 3 ? "black" : "white",
-                color: i === 3 ? "#ff0018" : "black",
-                padding: "7px 12px",
-                fontSize: 19,
-                fontWeight: 900,
-                width: "fit-content",
-                maxWidth: "100%",
-                marginTop: 7,
-                transform: `rotate(${i % 2 === 0 ? -1 : 1}deg)`,
-                boxShadow: "4px 4px 0 rgba(0,0,0,0.3)",
-            }}
-        >
-            {line}
-        </div>
-    ))}
-
-    {/* Decorative footer */}
-    <div
-        style={{
-            marginTop: 22,
-            borderTop: "3px solid black",
-            paddingTop: 8,
-            display: "flex",
-            justifyContent: "space-between",
-            fontSize: 12,
-            fontWeight: 900,
-            letterSpacing: 2,
-        }}
-    >
-        <span>JOHN KEATING</span>
-        <span>TAKE YOUR HEART</span>
-    </div>
-</div>
-
+               <Poster/> 
 
         </div>
     )
