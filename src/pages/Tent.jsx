@@ -59,8 +59,8 @@ export default function Tent() {
             <div
                 style={{
                     position: "absolute",
-                    left: 1400,
-                    top: 630,
+                    left: 1500,
+                    top: 650,
                     backgroundImage: `url(${ampImg})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'top left',
