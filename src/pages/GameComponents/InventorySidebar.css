@@ -1,0 +1,438 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* Main Vertical 1x9 Inventory Sidebar */
+.tb-inventory-sidebar {
+    position: fixed;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    user-select: none;
+    font-family: 'VT323', monospace;
+    border-style: solid;
+    border-width: 16px;
+    border-image-source: url('./assets/ui/UI_TravelBook_BookCover01a.png');
+    border-image-slice: 12 fill;
+    border-image-repeat: stretch;
+    image-rendering: pixelated;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+}
+
+/* Inner Parchment Strip holding the 1x9 column */
+.tb-inventory-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffd8a8;
+    border: 2px solid #493333;
+    padding: 8px;
+    box-shadow: inset 0 0 0 2px #eab67c, 0 3px 0 #7b323e;
+}
+
+/* 1x9 Vertical Slots Column */
+.tb-slots-column {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+}
+
+/* Individual Slot (30x30 sprite scaled to 50x50) */
+.tb-slot {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    background-image: url('./assets/ui/UI_TravelBook_Slot01a.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.08s ease;
+}
+
+.tb-slot:hover,
+.tb-slot.is-selected,
+.tb-slot.is-drag-over {
+    background-image: url('./assets/ui/UI_TravelBook_Slot01b.png');
+}
+
+.tb-slot.is-drag-over {
+    transform: scale(1.07);
+    filter: brightness(1.15);
+}
+
+.tb-slot.is-dragging-source {
+    opacity: 0.45;
+}
+
+/* Animated Slot Cursor Overlay (UI_TravelBook_SlotCursor01a_1..4) */
+.tb-slot-cursor {
+    position: absolute;
+    inset: -3px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* Item Icon inside Slot */
+.tb-slot-item {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    z-index: 1;
+}
+
+.tb-slot-item:active {
+    cursor: grabbing;
+}
+
+.tb-slot-item-img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    pointer-events: none;
+    transition: transform 0.12s ease;
+}
+
+.tb-slot:hover .tb-slot-item-img {
+    transform: scale(1.12);
+}
+
+/* Tooltip Popup on Hover (UI_TravelBook_Popup01a) */
+.tb-slot-tooltip {
+    position: absolute;
+    right: 62px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 190px;
+    padding: 8px 12px;
+    background-image: url('./assets/ui/UI_TravelBook_Popup01a.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    color: #493333;
+    pointer-events: none;
+    z-index: 1200;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tb-tooltip-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #3a2020;
+    border-bottom: 1px dashed #a47451;
+    padding-bottom: 2px;
+}
+
+.tb-tooltip-desc {
+    font-size: 15px;
+    line-height: 1.15;
+    color: #5b3b31;
+}
+
+/* TravelBook Banner Notification at Top of Screen (UI_TravelBook_Banner01a) */
+.tb-banner-toast {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1500;
+    min-width: 280px;
+    max-width: 500px;
+    padding: 6px 16px;
+    border-style: solid;
+    border-width: 14px;
+    border-image-source: url('./assets/ui/UI_TravelBook_Banner01a.png');
+    border-image-slice: 12 fill;
+    border-image-repeat: stretch;
+    image-rendering: pixelated;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    color: #493333;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+    animation: tbBannerSlideIn 0.2s ease-out;
+}
+
+@keyframes tbBannerSlideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -14px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.tb-banner-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    flex-shrink: 0;
+}
+
+.tb-banner-text {
+    flex: 1;
+    line-height: 1.15;
+    font-weight: bold;
+}
+
+/* Tree Popup when player is next to a tree (UI_TravelBook_Popup01a) */
+.tb-tree-popup {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    z-index: 500;
+    background-image: url('./assets/ui/UI_TravelBook_Popup01a.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-family: 'VT323', monospace;
+    color: #493333;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+    user-select: none;
+}
+
+.tb-tree-popup-text {
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.tb-shake-btn {
+    border: none;
+    background-color: transparent;
+    background-image: url('./assets/ui/UI_TravelBook_FrameSelect01a.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    padding: 4px 14px;
+    font-family: 'VT323', monospace;
+    font-size: 16px;
+    font-weight: bold;
+    color: #493333;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.tb-shake-btn:hover {
+    background-image: url('./assets/ui/UI_TravelBook_FrameSelect01b.png');
+    transform: scale(1.05);
+}
+
+.tb-shake-btn:active {
+    transform: scale(0.97);
+}
+
+/* Tree Shake Wiggle Animation */
+@keyframes tbTreeShake {
+    0% { translate: 0 0; }
+    20% { translate: -5px 0; }
+    40% { translate: 5px 0; }
+    60% { translate: -4px 0; }
+    80% { translate: 4px 0; }
+    100% { translate: 0 0; }
+}
+
+.is-shaking-tree {
+    animation: tbTreeShake 0.4s ease-in-out;
+}
+
+/* Dropped Key on Ground */
+.tb-world-item {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    background-image: url('./assets/ui/UI_TravelBook_Slot01b.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    animation: tbFloatBob 1.6s ease-in-out infinite;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+}
+
+.tb-world-item:hover {
+    transform: scale(1.12);
+    filter: brightness(1.15);
+}
+
+.tb-world-item-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    pointer-events: none;
+}
+
+.tb-world-item-label {
+    position: absolute;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    background-image: url('./assets/ui/UI_TravelBook_Popup01a.png');
+    background-size: 100% 100%;
+    padding: 3px 8px;
+    font-family: 'VT323', monospace;
+    font-size: 15px;
+    font-weight: bold;
+    color: #493333;
+    pointer-events: none;
+}
+
+@keyframes tbFloatBob {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Highlight Chest when dragging the Key */
+.tb-world-object-wrapper {
+    transition: filter 0.15s ease, transform 0.15s ease;
+}
+
+.tb-world-object-wrapper.is-valid-drop-target {
+    filter: drop-shadow(0 0 8px #ffd071) brightness(1.12);
+    cursor: pointer;
+}
+
+.tb-world-object-wrapper.is-drag-hovered {
+    filter: drop-shadow(0 0 14px #ffa34d) brightness(1.25);
+    transform: scale(1.04);
+}
+
+/* Status Badge above unlocked Chest */
+.tb-object-badge {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-image: url('./assets/ui/UI_TravelBook_FrameSelect01b.png');
+    background-size: 100% 100%;
+    padding: 2px 8px;
+    font-family: 'VT323', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    color: #493333;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+    image-rendering: pixelated;
+}
+
+/* Centered TravelBook Popup Modal for Item Pickups & Alerts */
+.tb-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: tbFadeIn 0.15s ease-out;
+}
+
+@keyframes tbFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.tb-popup-card {
+    width: 340px;
+    padding: 16px;
+    border-style: solid;
+    border-width: 18px;
+    border-image-source: url('./assets/ui/UI_TravelBook_BookCover01a.png');
+    border-image-slice: 12 fill;
+    border-image-repeat: stretch;
+    image-rendering: pixelated;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+    font-family: 'VT323', monospace;
+    color: #493333;
+}
+
+.tb-popup-inner {
+    background-color: #ffd8a8;
+    border: 2px solid #493333;
+    box-shadow: inset 0 0 0 2px #eab67c;
+    padding: 18px 16px 14px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.tb-popup-img {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+}
+
+.tb-popup-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #3a2020;
+    line-height: 1.1;
+}
+
+.tb-popup-message {
+    font-size: 19px;
+    color: #5b3b31;
+    line-height: 1.2;
+}
+
+.tb-popup-btn {
+    margin-top: 4px;
+    border: none;
+    background-color: transparent;
+    background-image: url('./assets/ui/UI_TravelBook_FrameSelect01a.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    padding: 6px 28px;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    font-weight: bold;
+    color: #493333;
+    cursor: pointer;
+}
+
+.tb-popup-btn:hover {
+    background-image: url('./assets/ui/UI_TravelBook_FrameSelect01b.png');
+    transform: scale(1.05);
+}
+

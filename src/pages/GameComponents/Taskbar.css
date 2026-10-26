@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+.tb-taskbar-container {
+    position: fixed;
+    top: 20px;
+    left: 24px;
+    z-index: 1000;
+    user-select: none;
+    font-family: 'VT323', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.tb-taskbar-container.has-leave-button {
+    top: 76px;
+}
+
+/* Dropdown toggle button */
+.tb-taskbar-header {
+    background-color: #ffd8a8;
+    border: 2px solid #493333;
+    box-shadow: inset 0 0 0 2px #eab67c, 0 3px 0 #7b323e;
+    border-radius: 4px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+    color: #493333;
+    min-width: 180px;
+    transition: transform 0.08s ease, filter 0.08s ease;
+}
+
+.tb-taskbar-header:hover {
+    filter: brightness(1.06);
+}
+
+.tb-taskbar-header:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 0 0 2px #eab67c, 0 1px 0 #7b323e;
+}
+
+.tb-taskbar-title {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tb-taskbar-badge {
+    background-color: #7b323e;
+    color: #ffd8a8;
+    font-size: 15px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 4px;
+}
+
+.tb-taskbar-arrow {
+    width: 14px;
+    height: 14px;
+    image-rendering: pixelated;
+    transition: transform 0.2s ease;
+}
+
+.tb-taskbar-arrow.is-open {
+    transform: rotate(180deg);
+}
+
+/* Expanded checklist dropdown box */
+.tb-taskbar-dropdown {
+    margin-top: 6px;
+    background-color: #ffd8a8;
+    border: 2px solid #493333;
+    box-shadow: inset 0 0 0 2px #eab67c, 0 6px 16px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    padding: 10px 14px;
+    min-width: 240px;
+    max-width: 310px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    animation: tb-dropdown-fade 0.15s ease-out;
+}
+
+@keyframes tb-dropdown-fade {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tb-task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 3px 0;
+    transition: background-color 0.1s ease;
+}
+
+/* Square checkbox */
+.tb-checkbox {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border: 2px solid #493333;
+    background-color: #fff6eb;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.tb-checkbox.is-done {
+    background-color: #d3f9d8;
+    border-color: #2b6131;
+}
+
+.tb-checkbox-tick {
+    width: 14px;
+    height: 14px;
+    image-rendering: pixelated;
+}
+
+.tb-task-label {
+    font-size: 19px;
+    color: #3b2318;
+    line-height: 1.15;
+    word-break: break-word;
+}
+
+.tb-task-label.is-done {
+    text-decoration: line-through;
+    color: #7f6e65;
+    opacity: 0.7;
+}
+
+.tb-task-label.is-secret-hideout {
+    color: #a63e00;
+    font-weight: bold;
+    animation: tb-pulse-secret 2s infinite ease-in-out;
+}
+
+@keyframes tb-pulse-secret {
+    0%, 100% {
+        color: #a63e00;
+    }
+    50% {
+        color: #e8590c;
+    }
+}
+
+.tb-taskbar-banner-unlocked {
+    font-size: 15px;
+    color: #a63e00;
+    background: #ffe8cc;
+    border: 1px dashed #d9480f;
+    padding: 4px 8px;
+    border-radius: 3px;
+    margin-top: 4px;
+    text-align: center;
+}

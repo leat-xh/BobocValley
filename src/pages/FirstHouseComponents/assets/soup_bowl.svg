@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 80">
+  <!-- Steam -->
+  <path d="M34 24 C30 16, 38 12, 34 4" stroke="#ffffff" stroke-opacity="0.75" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M48 22 C44 14, 52 10, 48 2" stroke="#ffffff" stroke-opacity="0.75" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M62 24 C58 16, 66 12, 62 4" stroke="#ffffff" stroke-opacity="0.75" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Wooden bowl rim & soup liquid -->
+  <ellipse cx="48" cy="38" rx="36" ry="12" fill="#5c3a21" stroke="#362010" stroke-width="3"/>
+  <ellipse cx="48" cy="39" rx="31" ry="9" fill="#d97724"/>
+  <!-- Herbs/veggies in soup -->
+  <circle cx="36" cy="38" r="3" fill="#4d9e34"/>
+  <circle cx="55" cy="41" r="3.5" fill="#e8c547"/>
+  <circle cx="47" cy="36" r="2.5" fill="#c93b2b"/>
+  <!-- Bowl body -->
+  <path d="M12 38 C14 66, 32 74, 48 74 C64 74, 82 66, 84 38 A36 12 0 0 1 12 38 Z" fill="#8b5a2b" stroke="#362010" stroke-width="3"/>
+</svg>

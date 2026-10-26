@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+.fortress-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 48px;
+    font-family: 'VT323', monospace;
+    user-select: none;
+    overflow: hidden;
+}
+
+/* Stefan Character Graphic */
+.fortress-stefan-sprite {
+    position: absolute;
+    left: 20px;
+    bottom: 0;
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    background-size: contain;
+    width: 580px;
+    height: 390px;
+    pointer-events: none;
+    z-index: 5;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.7));
+}
+
+/* Themed Royal Dialogue Box */
+.fortress-dialogue-box {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(840px, 90vw);
+    min-height: 200px;
+    box-sizing: border-box;
+    padding: 22px 32px;
+    background: #1c1322;
+    border: 4px solid #eab67c;
+    box-shadow: inset 0 0 0 3px #53253a, inset 0 0 20px rgba(234, 182, 124, 0.2), 0 10px 30px rgba(0, 0, 0, 0.85);
+    border-radius: 6px;
+    color: #fff2d9;
+    font-family: 'VT323', monospace;
+    font-size: 1.65rem;
+    z-index: 10;
+    line-height: 1.25;
+}
+
+/* Speaker Name Tag */
+.fortress-speaker-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(180deg, #7b323e 0%, #461823 100%);
+    border: 2px solid #eab67c;
+    box-shadow: inset 0 0 0 1px #ffc58a, 0 3px 0 #240c12;
+    padding: 3px 14px;
+    border-radius: 3px;
+    color: #ffd8a8;
+    margin: 0 0 12px 0;
+    font-size: 1.85rem;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px #000;
+}
+
+/* Dialogue Text */
+.fortress-dialogue-text {
+    margin: 0 0 16px 0;
+    color: #ffe6bf;
+    font-size: 1.6rem;
+    min-height: 48px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.fortress-dialogue-text.is-hint {
+    color: #f7a974;
+    font-size: 1.4rem;
+}
+
+/* Button Layouts */
+.fortress-actions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.fortress-options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+}
+
+/* Themed Standard Choice Button */
+.fortress-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.15;
+    padding: 10px 16px;
+    font-family: 'VT323', monospace;
+    font-size: 1.35rem;
+    letter-spacing: 0.5px;
+    color: #ffd8a8;
+    background: linear-gradient(180deg, #512b3e 0%, #361726 100%);
+    border: 2px solid #eab67c;
+    box-shadow: inset 0 1px 0 #9f6580, 0 4px 0 #1b0a13;
+    border-radius: 4px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #000;
+    transition: transform 0.08s ease, filter 0.08s ease, background 0.08s ease;
+}
+
+.fortress-btn:hover {
+    background: linear-gradient(180deg, #783b58 0%, #4c1d34 100%);
+    color: #ffffff;
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 #c78ca8, 0 6px 0 #1b0a13;
+}
+
+.fortress-btn:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 0 #9f6580, 0 2px 0 #1b0a13;
+}
+
+/* Prominent Gold Challenge / Submit Button */
+.fortress-gold-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 26px;
+    font-family: 'VT323', monospace;
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+    color: #fff9e6;
+    background: linear-gradient(180deg, #b87a32 0%, #7d4913 100%);
+    border: 2px solid #ffe1a6;
+    box-shadow: inset 0 1px 0 #ffeaaf, 0 5px 0 #3a2006, 0 0 14px rgba(255, 207, 122, 0.45);
+    border-radius: 4px;
+    cursor: pointer;
+    text-shadow: 2px 2px 0 #281403;
+    animation: fortress-pulse-gold 2.2s infinite ease-in-out;
+    transition: transform 0.08s ease, filter 0.08s ease;
+}
+
+.fortress-gold-btn:hover {
+    background: linear-gradient(180deg, #d4913f 0%, #94591a 100%);
+    filter: brightness(1.15);
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 #fff, 0 7px 0 #3a2006, 0 0 20px rgba(255, 207, 122, 0.7);
+}
+
+.fortress-gold-btn:active {
+    transform: translateY(2px);
+    box-shadow: inset 0 1px 0 #ffeaaf, 0 2px 0 #3a2006;
+}
+
+@keyframes fortress-pulse-gold {
+    0%, 100% {
+        box-shadow: inset 0 1px 0 #ffeaaf, 0 5px 0 #3a2006, 0 0 12px rgba(255, 207, 122, 0.35);
+    }
+    50% {
+        box-shadow: inset 0 1px 0 #ffeaaf, 0 5px 0 #3a2006, 0 0 22px rgba(255, 222, 150, 0.7);
+    }
+}
+
+/* Status Badges */
+.fortress-badge-challenge {
+    display: inline-block;
+    padding: 2px 10px;
+    background: #391e2b;
+    border: 1px solid #c97e51;
+    color: #ffd8a8;
+    font-size: 1.35rem;
+    border-radius: 3px;
+    margin-bottom: 8px;
+}
+
+.fortress-badge-success {
+    background: #1f3b25;
+    border-color: #58a96b;
+    color: #a7f3ba;
+}
+
+.fortress-badge-error {
+    background: #4a191d;
+    border-color: #d15656;
+    color: #ffb8b8;
+}
