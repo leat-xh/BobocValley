@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useInventory } from "../../context/InventoryContext";
 
 const KEYS = ["j", "k", "l", ";"];
 const HIT_LINE = 320;

@@ -5,6 +5,7 @@ import monsterImg from "../FirstHouseComponents/assets/monster_can.svg";
 import soupImg from "../FirstHouseComponents/assets/soup_bowl.svg";
 import waffleImg from "../FirstHouseComponents/assets/donkey_waffle.svg";
 import rezePlushImg from "../FirstHouseComponents/assets/reze_plush.png";
+import rockstarImg from "../TentComponents/assets/rockstar.png";
 
 export const INVENTORY_SIZE = 9;
 
@@ -26,7 +27,7 @@ export const ITEMS_CATALOG = {
     suspicious_ring: {
         id: "suspicious_ring",
         name: "Suspicious Ring",
-        description: "A shiny ring found inside Victor's tent.",
+        description: "A shiny ring that turns you invisible",
         icon: ringImg,
         usableOn: []
     },
@@ -56,6 +57,13 @@ export const ITEMS_CATALOG = {
         name: "Reze Plushie",
         description: "A cute Reze plushie.",
         icon: rezePlushImg,
+        usableOn: []
+    },
+    star_shaped_rock: {
+        id: "star_shaped_rock",
+        name: "Star-shaped Rock",
+        description: "A precious stone obtained by completing the rhythm mini-game",
+        icon: rockstarImg,
         usableOn: []
     }
 };

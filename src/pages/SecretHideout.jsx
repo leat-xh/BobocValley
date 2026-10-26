@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import LeaveButton from "./Components/LeaveButton";
 import { useInventory } from "../context/InventoryContext";
-import hideoutBg from "./TentComponents/assets/tentbgdark.jpeg";
+import hideoutBg from "./GameComponents/assets/guild.jpg";
 
 export default function SecretHideout() {
     const { markLocationVisited } = useInventory();

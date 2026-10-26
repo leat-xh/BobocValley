@@ -4,7 +4,6 @@ import SecondHouse from './pages/SecondHouse'
 import Tent from './pages/Tent'
 import Fortress from './pages/Fortress'
 import SecretHideout from './pages/SecretHideout'
-import BeatmapEditor from './pages/TentComponents/BeatmapEditor'
 import InventorySidebar from './pages/GameComponents/InventorySidebar'
 import Taskbar from './pages/GameComponents/Taskbar'
 import { InventoryProvider } from './context/InventoryContext'
@@ -22,7 +21,6 @@ function App() {
         <Route path='/tent' element={<Tent/>}/>
         <Route path='/fortress' element={<Fortress/>}/>
         <Route path='/hideout' element={<SecretHideout/>}/>
-        <Route path='/beatmapeditor' element={<BeatmapEditor/>}/>
       </Routes>
     </InventoryProvider>
   )

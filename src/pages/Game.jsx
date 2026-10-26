@@ -121,11 +121,7 @@ export default function Game() {
                 })();
 
                 if (isNearWindmill) {
-                    if (allFourVisited) {
-                        navigate("/hideout");
-                    } else {
-                        showNotification("The Secret Hideout entrance is sealed! Visit all 4 locations first.", "info");
-                    }
+                        showNotification("Today seems especially windy!", "info");
                     return;
                 }
 
@@ -142,7 +138,7 @@ export default function Game() {
                         }
                         return;
                     }
-                    if (nearbyObject.type === "windmill") {
+                    if (nearbyObject.type === "carriage") {
                         if (allFourVisited) {
                             navigate("/hideout");
                         } else {
@@ -204,9 +200,10 @@ export default function Game() {
                     }
                 }
 
-                const blocked = objectsData.some(obj => 
-                    obj.solid && isColliding(next, obj)
-                );
+                const blocked = objectsData.some(obj => {
+                    if (obj.type == "carriage" && !allFourVisited) return false;
+                    return obj.solid && isColliding(next, obj)
+                });
                 return blocked ? prev : next;
             })
 
@@ -297,6 +294,8 @@ export default function Game() {
       })}
 
       {objectsData.map((obj, i) => {
+        if (!allFourVisited && obj.type == "carriage") return;
+
         const playerIsInFront =
             player.pos.y > obj.pos.y + obj.height / 1.5;
 
@@ -320,11 +319,14 @@ export default function Game() {
         if (obj.type === "chest" && chestUnlocked) {
             objectBadge = "Unlocked!";
         } else if (obj.type === "windmill") {
-            objectBadge = allFourVisited ? "★ Secret Hideout ★" : null;
+            //objectBadge = allFourVisited ? "★ Secret Hideout ★" : null;
         }
 
         const handleObjectClick = () => {
+            if (!isNear(player, obj, 50)) return;
             if (obj.type === "windmill") {
+                showNotification("Today seems especially windy!", "info");
+                return; 
                 if (allFourVisited) {
                     navigate("/hideout");
                 } else {

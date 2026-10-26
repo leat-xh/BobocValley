@@ -319,7 +319,24 @@
     "animation": false
   },
   {
-    "pos": {"x": 300, "y": 240},
+    "pos": {"x": 200, "y": 330},
+    "interactable": true,
+    "type": "carriage",
+    "width": 666,
+    "height": 375,
+    "scale": 0.6,
+    "solid": true,
+    "collision": {
+      "offsetX": 300,
+      "offsetY": 220,
+      "width": 120,
+      "height": 30 
+    },
+    "animation": false,
+    "path": "/hideout"
+  },
+  {
+    "pos": {"x": 300, "y": 250},
     "interactable": false,
     "type": "tree",
     "width": 64,

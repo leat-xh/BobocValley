@@ -1,0 +1,17 @@
+
+.fortress-dialogue button {
+    display: block;
+    margin: 8px 0;
+    padding: 6px 12px;
+    font-family: 'VT323', monospace;
+    font-size: 1.3rem;
+    color: #fff0d0;
+    background: #493047;
+    border: 2px solid #eab67c;
+    cursor: pointer;
+}
+
+.fortress-dialogue button:hover {
+    background: #7b323e;
+    color: #ffffff;
+}
