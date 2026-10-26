@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 96">
+  <defs>
+    <linearGradient id="canBody" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#111"/>
+      <stop offset="45%" stop-color="#2b2b2b"/>
+      <stop offset="100%" stop-color="#090909"/>
+    </linearGradient>
+  </defs>
+  <!-- Top rim -->
+  <ellipse cx="32" cy="10" rx="20" ry="6" fill="#c0c5ce" stroke="#444" stroke-width="2"/>
+  <!-- Can cylinder -->
+  <path d="M12 10 L12 82 A20 8 0 0 0 52 82 L52 10 A20 6 0 0 1 12 10 Z" fill="url(#canBody)" stroke="#1f1f1f" stroke-width="2"/>
+  <!-- Bottom rim -->
+  <path d="M12 82 A20 8 0 0 0 52 82" fill="none" stroke="#9ea4b0" stroke-width="3"/>
+  <!-- Monster claw marks (neon green) -->
+  <path d="M21 26 C23 40, 21 55, 23 70" stroke="#39ff14" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <path d="M32 23 C34 40, 31 56, 33 73" stroke="#39ff14" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M43 26 C44 40, 42 55, 43 70" stroke="#39ff14" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <path d="M18 28 L24 25 M29 25 L35 22 M40 28 L46 25" stroke="#39ff14" stroke-width="3" stroke-linecap="round"/>
+</svg>

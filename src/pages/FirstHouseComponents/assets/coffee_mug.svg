@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <!-- Steam -->
+  <path d="M30 18 C27 11, 34 8, 30 2" stroke="#fff" stroke-opacity="0.7" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M44 18 C41 11, 48 8, 44 2" stroke="#fff" stroke-opacity="0.7" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Handle -->
+  <path d="M54 32 C68 32, 68 56, 54 56" fill="none" stroke="#d9cbb8" stroke-width="6" stroke-linecap="round"/>
+  <!-- Mug body -->
+  <rect x="18" y="24" width="38" height="42" rx="6" fill="#efe6d5" stroke="#4a3525" stroke-width="3"/>
+  <ellipse cx="37" cy="25" rx="19" ry="6" fill="#4a2c18" stroke="#4a3525" stroke-width="3"/>
+</svg>
