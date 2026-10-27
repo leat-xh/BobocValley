@@ -291,7 +291,7 @@ export default function Game() {
         animationId = requestAnimationFrame(update);
 
         return () => cancelAnimationFrame(animationId);
-    }, []);
+    }, [castleCompleted]);
 
     useEffect(() => {
         try {

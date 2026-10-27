@@ -33,12 +33,13 @@
     box-shadow: inset 0 0 0 2px #eab67c, 0 3px 0 #7b323e;
 }
 
-/* 1x9 Vertical Slots Column */
+/* 2x6 Vertical Slots Grid (12 slots total) */
 .tb-slots-column {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 50px);
     gap: 6px;
     align-items: center;
+    justify-items: center;
 }
 
 /* Individual Slot (30x30 sprite scaled to 50x50) */

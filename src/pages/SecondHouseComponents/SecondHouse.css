@@ -1,0 +1,1121 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+.sh-room-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+    font-family: 'VT323', monospace;
+    transition: background 0.45s ease, color 0.35s ease;
+    background: linear-gradient(180deg, #2d2338 0%, #3d2c47 58%, #4a3126 58.2%, #2c1b14 100%);
+    color: #fff2d9;
+}
+
+.sh-room-container.is-night-mode {
+    background: linear-gradient(180deg, #090b16 0%, #131836 58%, #161228 58.2%, #0b0816 100%);
+}
+
+/* Architectural Stone & Wood Trim */
+.sh-wall-wainscot {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 52%;
+    height: 6%;
+    background: linear-gradient(180deg, #5c3a28 0%, #3b2316 100%);
+    border-top: 4px solid #eab67c;
+    border-bottom: 4px solid #1e110a;
+    z-index: 1;
+    transition: all 0.45s ease;
+}
+
+.sh-room-container.is-night-mode .sh-wall-wainscot {
+    background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
+    border-top: 3px solid #22d3ee;
+    box-shadow: 0 -4px 18px rgba(34, 211, 238, 0.45), 0 4px 18px rgba(168, 85, 247, 0.35);
+}
+
+/* Perspective Floor Grid Lines */
+.sh-floor-planks {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 42%;
+    background-image: repeating-linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.18) 0px,
+        rgba(0, 0, 0, 0.18) 2px,
+        transparent 2px,
+        transparent 110px
+    );
+    z-index: 1;
+    pointer-events: none;
+}
+
+.sh-room-container.is-night-mode .sh-floor-planks {
+    background-image:
+        linear-gradient(180deg, rgba(34, 211, 238, 0.12) 0%, transparent 45%),
+        repeating-linear-gradient(
+            90deg,
+            rgba(34, 211, 238, 0.14) 0px,
+            rgba(34, 211, 238, 0.14) 2px,
+            transparent 2px,
+            transparent 110px
+        );
+}
+
+/* Top Status Header Banner */
+.sh-top-banner {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 800;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(24, 16, 32, 0.93);
+    border: 3px solid #eab67c;
+    border-radius: 8px;
+    padding: 6px 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.65);
+    font-size: 1.35rem;
+    color: #ffd8a8;
+    white-space: nowrap;
+}
+
+.sh-room-container.is-night-mode .sh-top-banner {
+    background: rgba(11, 15, 32, 0.94);
+    border-color: #38bdf8;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.35), 0 6px 20px rgba(0, 0, 0, 0.8);
+}
+
+.sh-banner-title {
+    font-size: 1.55rem;
+    font-weight: bold;
+    color: #fff3dc;
+    letter-spacing: 0.5px;
+}
+
+.sh-banner-pill {
+    padding: 2px 10px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(234, 182, 124, 0.5);
+    font-size: 1.2rem;
+}
+
+.sh-banner-pill.is-collected {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: #4ade80;
+    color: #86efac;
+}
+
+/* Arched Castle Window */
+.sh-castle-window {
+    position: absolute;
+    left: 8%;
+    top: 11%;
+    width: 155px;
+    height: 225px;
+    border-radius: 80px 80px 8px 8px;
+    border: 8px solid #57435e;
+    background: linear-gradient(180deg, #f59e0b 0%, #fde68a 65%, #65a30d 66%, #365314 100%);
+    box-shadow: inset 0 0 20px rgba(255, 230, 138, 0.6), 0 8px 24px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+    overflow: hidden;
+    transition: all 0.45s ease;
+}
+
+.sh-room-container.is-night-mode .sh-castle-window {
+    border-color: #334155;
+    background: linear-gradient(180deg, #020617 0%, #1e1b4b 70%, #0f172a 71%, #020617 100%);
+    box-shadow: inset 0 0 24px rgba(56, 189, 248, 0.35), 0 0 25px rgba(56, 189, 248, 0.2);
+}
+
+.sh-window-cross-v {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    transform: translateX(-50%);
+    background: #47364d;
+}
+
+.sh-window-cross-h {
+    position: absolute;
+    top: 48%;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: #47364d;
+}
+
+.sh-window-orb {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #fffbeb;
+    box-shadow: 0 0 18px #fef08a;
+    transition: all 0.45s ease;
+}
+
+.sh-room-container.is-night-mode .sh-window-orb {
+    background: #bae6fd;
+    box-shadow: 0 0 20px #38bdf8;
+}
+
+/* Secret UV Wall Inscription (Only visible in Night/UV Mode) */
+.sh-uv-wall-clue {
+    position: absolute;
+    left: 22%;
+    top: 10%;
+    padding: 8px 16px;
+    border: 2px dashed rgba(34, 211, 238, 0.8);
+    border-radius: 6px;
+    background: rgba(6, 182, 212, 0.12);
+    color: #67e8f9;
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px #06b6d4;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+    z-index: 4;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+    transition: all 0.4s ease;
+}
+
+.sh-room-container.is-night-mode .sh-uv-wall-clue {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Interactive Object Wrapper Base */
+.sh-interactive-obj {
+    position: absolute;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.16s ease, filter 0.16s ease;
+}
+
+.sh-interactive-obj:hover {
+    transform: translateY(-4px) scale(1.03);
+    filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.75));
+}
+
+.sh-room-container.is-night-mode .sh-interactive-obj:hover {
+    filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.85));
+}
+
+.sh-obj-label {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.92);
+    color: #fde68a;
+    border: 1px solid #eab67c;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 1.15rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 30;
+}
+
+.sh-interactive-obj:hover .sh-obj-label {
+    opacity: 1;
+}
+
+/* 1. Framed Strategist Painting */
+.sh-painting-frame {
+    left: 24%;
+    top: 19%;
+    width: 210px;
+    height: 150px;
+    background: linear-gradient(135deg, #78350f 0%, #451a03 100%);
+    border: 6px solid #eab308;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 3px #713f12, 0 10px 24px rgba(0, 0, 0, 0.65);
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sh-painting-inner {
+    width: 100%;
+    height: 92px;
+    background: linear-gradient(180deg, #1e1b4b 0%, #312e81 65%, #0f172a 100%);
+    border: 2px solid #fbbf24;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sh-painting-quote-strip {
+    font-size: 0.95rem;
+    color: #fef08a;
+    text-align: center;
+    line-height: 1.05;
+    padding: 2px 4px;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 3px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 2. Cyber-UV Ambient Wall Switch */
+.sh-wall-switch {
+    left: 42%;
+    top: 26%;
+    width: 74px;
+    height: 105px;
+    background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+    border: 3px solid #94a3b8;
+    border-radius: 8px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 6px;
+    box-sizing: border-box;
+}
+
+.sh-wall-switch.is-active {
+    border-color: #22d3ee;
+    box-shadow: 0 0 18px rgba(34, 211, 238, 0.65);
+}
+
+.sh-switch-led {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #f59e0b;
+    box-shadow: 0 0 8px #f59e0b;
+}
+
+.sh-wall-switch.is-active .sh-switch-led {
+    background: #22d3ee;
+    box-shadow: 0 0 12px #22d3ee;
+}
+
+.sh-switch-toggle-track {
+    width: 28px;
+    height: 46px;
+    background: #0f172a;
+    border: 2px solid #64748b;
+    border-radius: 14px;
+    padding: 3px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.sh-wall-switch.is-active .sh-switch-toggle-track {
+    border-color: #38bdf8;
+    align-items: flex-end;
+}
+
+.sh-switch-knob {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fbbf24;
+}
+
+.sh-wall-switch.is-active .sh-switch-knob {
+    background: #22d3ee;
+    box-shadow: 0 0 8px #22d3ee;
+}
+
+.sh-switch-caption {
+    font-size: 0.95rem;
+    color: #e2e8f0;
+    letter-spacing: 0.5px;
+}
+
+/* 3. Dual-Monitor Battlestation Desk */
+.sh-battlestation-desk {
+    left: 50%;
+    top: 32%;
+    width: 310px;
+    height: 225px;
+    z-index: 12;
+}
+
+.sh-monitors-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 6px;
+}
+
+.sh-monitor-screen {
+    width: 132px;
+    height: 86px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border: 4px solid #475569;
+    border-radius: 6px;
+    padding: 6px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.65);
+    transition: all 0.3s ease;
+}
+
+.sh-room-container.is-night-mode .sh-monitor-screen {
+    border-color: #38bdf8;
+    background: linear-gradient(135deg, #090d16 0%, #1e1b4b 100%);
+    box-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
+}
+
+.sh-monitor-code-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sh-code-bar {
+    height: 5px;
+    border-radius: 3px;
+    background: #38bdf8;
+}
+
+.sh-desk-surface {
+    width: 100%;
+    height: 36px;
+    background: linear-gradient(180deg, #475569 0%, #1e293b 100%);
+    border: 3px solid #94a3b8;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 18px;
+    box-sizing: border-box;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+}
+
+.sh-room-container.is-night-mode .sh-desk-surface {
+    border-color: #a855f7;
+    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.5);
+}
+
+.sh-desk-legs {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 22px;
+    height: 85px;
+}
+
+.sh-desk-leg {
+    width: 16px;
+    height: 100%;
+    background: #1e293b;
+    border-left: 2px solid #64748b;
+    border-right: 2px solid #0f172a;
+}
+
+/* 4. Upper Neon Rack with Artisan Keycap (Revealed in Night Mode) */
+.sh-neon-rack {
+    left: 53%;
+    top: 15%;
+    width: 240px;
+    height: 82px;
+    background: rgba(15, 23, 42, 0.75);
+    border-bottom: 5px solid #64748b;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 8px 14px;
+    box-sizing: border-box;
+    z-index: 12;
+    transition: all 0.35s ease;
+}
+
+.sh-room-container.is-night-mode .sh-neon-rack {
+    border-bottom-color: #22d3ee;
+    box-shadow: 0 8px 22px rgba(34, 211, 238, 0.45);
+    background: rgba(15, 23, 42, 0.92);
+}
+
+.sh-keycap-collectible {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.sh-keycap-collectible.is-glowing {
+    animation: shPulseGlow 1.6s infinite ease-in-out;
+}
+
+@keyframes shPulseGlow {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+        filter: drop-shadow(0 0 8px #22d3ee);
+    }
+    50% {
+        transform: translateY(-4px) scale(1.08);
+        filter: drop-shadow(0 0 18px #f472b6);
+    }
+}
+
+/* 5. Strategist's Leather Journal on Side Pedestal */
+.sh-journal-pedestal {
+    left: 36%;
+    top: 49%;
+    width: 125px;
+    height: 135px;
+    z-index: 13;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sh-journal-book {
+    width: 78px;
+    height: 56px;
+    background: linear-gradient(135deg, #7c2d12 0%, #431407 100%);
+    border: 3px solid #fbbf24;
+    border-radius: 4px 8px 8px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.65);
+    font-size: 1.6rem;
+}
+
+.sh-pedestal-stand {
+    width: 96px;
+    height: 74px;
+    background: linear-gradient(180deg, #573b26 0%, #2f1d11 100%);
+    border: 3px solid #a16207;
+    border-radius: 6px;
+}
+
+/* 6. Obsidian Chessboard Table */
+.sh-chess-table {
+    left: 12%;
+    top: 56%;
+    width: 195px;
+    height: 145px;
+    z-index: 14;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sh-chessboard-surface {
+    width: 175px;
+    height: 76px;
+    background: conic-gradient(
+        #1e293b 90deg,
+        #cbd5e1 90deg 180deg,
+        #1e293b 180deg 270deg,
+        #cbd5e1 270deg
+    );
+    background-size: 44px 38px;
+    border: 5px solid #eab308;
+    border-radius: 6px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 2rem;
+}
+
+.sh-chess-pillar {
+    width: 56px;
+    height: 58px;
+    background: linear-gradient(90deg, #1e293b 0%, #475569 50%, #0f172a 100%);
+    border-left: 2px solid #eab308;
+    border-right: 2px solid #eab308;
+}
+
+.sh-chess-base {
+    width: 115px;
+    height: 14px;
+    background: #1e293b;
+    border: 2px solid #eab308;
+    border-radius: 4px;
+}
+
+/* 7. Sci-Fi & Algorithms Bookshelf */
+.sh-bookshelf {
+    right: 11%;
+    top: 20%;
+    width: 165px;
+    height: 285px;
+    background: linear-gradient(180deg, #3b2314 0%, #23140b 100%);
+    border: 5px solid #854d0e;
+    border-radius: 6px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7);
+    z-index: 9;
+}
+
+.sh-room-container.is-night-mode .sh-bookshelf {
+    border-color: #6366f1;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.35), 0 10px 28px rgba(0, 0, 0, 0.8);
+}
+
+.sh-shelf-row {
+    width: 100%;
+    height: 54px;
+    border-bottom: 5px solid #713f12;
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    padding: 0 4px;
+    box-sizing: border-box;
+}
+
+.sh-book-spine {
+    width: 18px;
+    border-radius: 2px 2px 0 0;
+    border: 1px solid rgba(0, 0, 0, 0.45);
+}
+
+/* 8. Gym Dumbbells Rack & Cyber-Bonsai */
+.sh-dumbbell-rack {
+    right: 13%;
+    top: 67%;
+    width: 165px;
+    height: 98px;
+    background: rgba(15, 23, 42, 0.88);
+    border: 3px solid #64748b;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.65);
+    z-index: 14;
+}
+
+.sh-bonsai-pot {
+    left: 26%;
+    top: 44%;
+    width: 82px;
+    height: 102px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 11;
+}
+
+/* Hidden Floor Vault & Draggable Crimson Tactical Rug */
+.sh-hidden-floor-vault {
+    position: absolute;
+    left: 48%;
+    top: 76%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 96px;
+    background: #140f1d;
+    border: 3px dashed #eab308;
+    border-radius: 8px;
+    box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    z-index: 8;
+}
+
+.sh-draggable-rug {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    height: 132px;
+    background: radial-gradient(circle, #7f1d1d 0%, #450a0a 75%, #2a0707 100%);
+    border: 5px double #fbbf24;
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 15;
+    touch-action: none;
+    user-select: none;
+    transition: box-shadow 0.15s ease;
+}
+
+.sh-draggable-rug:hover {
+    box-shadow: 0 0 18px rgba(251, 191, 36, 0.55), 0 10px 24px rgba(0, 0, 0, 0.75);
+}
+
+.sh-rug-pattern {
+    width: 86%;
+    height: 72%;
+    border: 2px solid rgba(251, 191, 36, 0.55);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fde68a;
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+    pointer-events: none;
+}
+
+/* ==================== MODALS & MINI-GAME ==================== */
+.sh-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 8, 20, 0.78);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2100;
+    padding: 16px;
+    box-sizing: border-box;
+    animation: shModalFade 0.16s ease-out;
+}
+
+@keyframes shModalFade {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.sh-modal-card {
+    background: #181326;
+    border: 4px solid #eab67c;
+    box-shadow: inset 0 0 0 3px #4c243b, 0 16px 40px rgba(0, 0, 0, 0.85);
+    border-radius: 10px;
+    padding: 20px 26px;
+    color: #fff2d9;
+    font-family: 'VT323', monospace;
+    max-height: 92vh;
+    overflow-y: auto;
+    width: min(680px, 94vw);
+    box-sizing: border-box;
+}
+
+.sh-battlestation-modal {
+    width: min(760px, 95vw);
+    border-color: #38bdf8;
+    box-shadow: inset 0 0 0 3px #1e1b4b, 0 0 28px rgba(56, 189, 248, 0.3), 0 16px 40px rgba(0, 0, 0, 0.9);
+}
+
+.sh-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid rgba(234, 182, 124, 0.35);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+}
+
+.sh-modal-badge {
+    font-size: 1.75rem;
+    color: #ffd8a8;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.sh-modal-close {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 2px solid #ef4444;
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    font-family: 'VT323', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sh-modal-close:hover {
+    background: #ef4444;
+    color: #fff;
+}
+
+/* Painting Modal Canvas */
+.sh-canvas-preview {
+    width: 100%;
+    height: 210px;
+    background: linear-gradient(180deg, #1e1b4b 0%, #312e81 60%, #111827 100%);
+    border: 4px solid #fbbf24;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.sh-canvas-knight {
+    width: 112px;
+    height: 112px;
+    z-index: 2;
+    filter: drop-shadow(0 0 16px rgba(251, 191, 36, 0.65));
+}
+
+.sh-canvas-caption {
+    margin-top: 6px;
+    font-size: 1.25rem;
+    color: #67e8f9;
+    letter-spacing: 2px;
+    z-index: 2;
+}
+
+.sh-plaque-box {
+    background: linear-gradient(180deg, #451a03 0%, #270e02 100%);
+    border: 2px solid #fbbf24;
+    border-radius: 6px;
+    padding: 12px 18px;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.sh-plaque-label {
+    font-size: 1.1rem;
+    color: #fde047;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.sh-plaque-quote {
+    margin: 0;
+    font-size: 1.55rem;
+    color: #fffbeb;
+    font-style: italic;
+    line-height: 1.25;
+}
+
+.sh-modal-footnote {
+    font-size: 1.35rem;
+    color: #cbd5e1;
+    margin: 0 0 14px 0;
+    line-height: 1.25;
+}
+
+.sh-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+/* Journal Modal */
+.sh-journal-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.sh-tab-btn {
+    flex: 1;
+    padding: 8px 14px;
+    font-family: 'VT323', monospace;
+    font-size: 1.35rem;
+    background: #271d3a;
+    color: #cbd5e1;
+    border: 2px solid #475569;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.12s ease;
+}
+
+.sh-tab-btn.is-active {
+    background: #3b2854;
+    color: #fef08a;
+    border-color: #fbbf24;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
+}
+
+.sh-journal-page {
+    background: #fff8eb;
+    color: #3b2314;
+    border: 3px solid #92400e;
+    border-radius: 6px;
+    padding: 16px 20px;
+    box-shadow: inset 0 0 18px rgba(146, 64, 14, 0.18);
+}
+
+.sh-journal-heading {
+    margin: 0 0 10px 0;
+    font-size: 1.65rem;
+    color: #7c2d12;
+    border-bottom: 2px dashed #b45309;
+    padding-bottom: 4px;
+}
+
+.sh-journal-list {
+    margin: 0 0 14px 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sh-journal-entry {
+    font-size: 1.4rem;
+    line-height: 1.25;
+}
+
+.sh-journal-clue-box {
+    background: #fef3c7;
+    border: 2px solid #d97706;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 1.35rem;
+    font-weight: bold;
+    color: #92400e;
+}
+
+/* Memory Matrix Mini-Game */
+.sh-memory-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sh-memory-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.sh-memory-stats {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.sh-stat-pill {
+    background: #0f172a;
+    border: 2px solid #38bdf8;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 1.35rem;
+    color: #e0f2fe;
+}
+
+.sh-stat-pill.is-won {
+    border-color: #4ade80;
+    color: #86efac;
+}
+
+.sh-memory-subtitle {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #cbd5e1;
+}
+
+.sh-memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 4px 0;
+}
+
+.sh-memory-card {
+    height: 104px;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 2px solid #475569;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'VT323', monospace;
+    color: #fff;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+.sh-memory-card:hover:not(:disabled) {
+    transform: translateY(-2px);
+    border-color: #38bdf8;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+.sh-memory-card.is-revealed {
+    background: linear-gradient(135deg, #1e1b4b 0%, #090d16 100%);
+}
+
+.sh-memory-card.is-matched {
+    box-shadow: 0 0 14px rgba(74, 222, 128, 0.45);
+}
+
+.sh-card-face {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 2px;
+}
+
+.sh-card-icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.sh-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    line-height: 1.05;
+}
+
+.sh-card-sub {
+    font-size: 1rem;
+    color: #94a3b8;
+    line-height: 1;
+}
+
+.sh-card-back-emblem {
+    font-size: 2.1rem;
+    color: #38bdf8;
+    opacity: 0.85;
+}
+
+.sh-card-back-label {
+    font-size: 1.05rem;
+    color: #64748b;
+    letter-spacing: 1px;
+}
+
+.sh-memory-victory-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(20, 83, 45, 0.45);
+    border: 2px solid #4ade80;
+    border-radius: 8px;
+    padding: 10px 16px;
+    margin-top: 4px;
+}
+
+.sh-victory-crest-img {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+}
+
+.sh-victory-title {
+    font-size: 1.5rem;
+    color: #86efac;
+    font-weight: bold;
+}
+
+.sh-victory-desc {
+    font-size: 1.25rem;
+    color: #dcfce7;
+}
+
+/* Terminal Console Tab */
+.sh-terminal-console {
+    background: #050811;
+    border: 2px solid #22d3ee;
+    border-radius: 8px;
+    padding: 14px 18px;
+    color: #67e8f9;
+    font-size: 1.3rem;
+}
+
+.sh-terminal-title {
+    color: #fde047;
+    border-bottom: 1px dashed #0891b2;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+.sh-terminal-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sh-terminal-line {
+    line-height: 1.25;
+}
+
+.sh-terminal-hint {
+    margin-top: 14px;
+    padding: 8px 12px;
+    background: rgba(34, 211, 238, 0.12);
+    border-left: 4px solid #fbbf24;
+    color: #fef08a;
+}
+
+/* Buttons */
+.sh-gold-btn {
+    padding: 8px 22px;
+    font-family: 'VT323', monospace;
+    font-size: 1.45rem;
+    color: #fff9e6;
+    background: linear-gradient(180deg, #b87a32 0%, #7d4913 100%);
+    border: 2px solid #ffe1a6;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #3a2006;
+}
+
+.sh-gold-btn:hover {
+    filter: brightness(1.1);
+}
+
+.sh-terminal-btn {
+    padding: 6px 16px;
+    font-family: 'VT323', monospace;
+    font-size: 1.3rem;
+    color: #e0f2fe;
+    background: #1e293b;
+    border: 2px solid #38bdf8;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.sh-terminal-btn:hover {
+    background: #0284c7;
+    color: #fff;
+}

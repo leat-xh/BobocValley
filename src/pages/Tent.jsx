@@ -25,8 +25,12 @@ export default function Tent() {
     const hasRingInInventory = slots.some((s) => s?.itemId === "suspicious_ring");
     const hasPickInInventory = slots.some((s) => s?.itemId === "guitar_pick");
 
-    const [collectedRing, setCollectedRing] = useState(hasRingInInventory);
-    const [collectedPick, setCollectedPick] = useState(hasPickInInventory);
+    const [collectedRing, setCollectedRing] = useState(
+        () => Boolean(hasRingInInventory || tentState?.ringPickedUp)
+    );
+    const [collectedPick, setCollectedPick] = useState(
+        () => Boolean(hasPickInInventory || tentState?.pickPickedUp)
+    );
 
     const [catPos, setCatPos] = useState({x: 650, y: 680});
     const [catHeld, setCatHeld] = useState(false);
@@ -119,6 +123,7 @@ export default function Tent() {
                 onClick={() => {
                     if (addItem("suspicious_ring")) {
                         setCollectedRing(true);
+                        setTentState((prev) => ({ ...prev, ringPickedUp: true }));
                         setTentPopup({
                             title: "Suspicious Ring",
                             message: "You collected a suspicious ring! It has been added to your inventory.",
@@ -256,6 +261,7 @@ export default function Tent() {
                 onClick={() => {
                     if (addItem("guitar_pick")) {
                         setCollectedPick(true);
+                        setTentState((prev) => ({ ...prev, pickPickedUp: true }));
                         setTentPopup({
                             title: "Guitar Pick",
                             message: "You collected a guitar pick! Drag it onto the guitar or click the guitar to play.",

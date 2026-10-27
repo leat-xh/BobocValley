@@ -1,6 +1,6 @@
 import houseImg from "../GameComponents/assets/House.png";
-import roundCastleImg from "../GameComponents/assets/Castle\ Round.png";
-import squareCastleImg from "../GameComponents/assets/Castle\ Square.png";
+import roundCastleImg from "../GameComponents/assets/Castle Round.png";
+import squareCastleImg from "../GameComponents/assets/Castle Square.png";
 import treeImg from "../GameComponents/assets/Trees_animation.png";
 import windmillImg from "../GameComponents/assets/Windmill.png";
 import tentImg  from "../GameComponents/assets/Tent.png";

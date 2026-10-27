@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="hoodGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#312e81" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="160" height="160" fill="url(#bgGrad)" />
+  <!-- Cyber Grid Accent -->
+  <circle cx="80" cy="80" r="68" fill="none" stroke="#22d3ee" stroke-width="2" stroke-dasharray="6 4" opacity="0.45" />
+  <!-- Shoulders / Cloak -->
+  <path d="M22 156 C26 118, 48 104, 80 104 C112 104, 134 118, 138 156 Z" fill="url(#hoodGrad)" stroke="#38bdf8" stroke-width="3" />
+  <!-- Collar Gold Trim -->
+  <path d="M56 108 L80 128 L104 108" fill="none" stroke="#fbbf24" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Neck & Head -->
+  <rect x="70" y="90" width="20" height="20" rx="6" fill="#f1c27d" />
+  <rect x="52" y="42" width="56" height="56" rx="18" fill="#f1c27d" stroke="#1e1b4b" stroke-width="3" />
+  <!-- Stylish Dark Hair -->
+  <path d="M48 58 C48 34, 64 26, 82 26 C100 26, 112 36, 112 58 C106 46, 94 42, 80 44 C64 42, 54 48, 48 58 Z" fill="#1e293b" stroke="#0f172a" stroke-width="2" />
+  <!-- Strategist Glasses with Cyan Reflection -->
+  <rect x="58" y="60" width="19" height="13" rx="3" fill="#0f172a" stroke="#22d3ee" stroke-width="2.5" />
+  <rect x="83" y="60" width="19" height="13" rx="3" fill="#0f172a" stroke="#22d3ee" stroke-width="2.5" />
+  <line x1="77" y1="65" x2="83" y2="65" stroke="#22d3ee" stroke-width="2.5" />
+  <line x1="62" y1="64" x2="69" y2="64" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" />
+  <line x1="87" y1="64" x2="94" y2="64" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" />
+  <!-- Confident Smirk -->
+  <path d="M72 84 Q82 89 90 82" fill="none" stroke="#451a03" stroke-width="3" stroke-linecap="round" />
+  <!-- Small Chess Knight Pin on Cloak -->
+  <circle cx="104" cy="132" r="9" fill="#1e1b4b" stroke="#fbbf24" stroke-width="2" />
+  <text x="104" y="137" text-anchor="middle" font-size="13" fill="#fbbf24">♞</text>
+</svg>

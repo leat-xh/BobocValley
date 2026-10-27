@@ -1,8 +1,48 @@
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 import objectsData from "../pages/data/objects.json";
 import { INVENTORY_SIZE, ITEMS_CATALOG } from "../pages/data/itemsData";
 
 const InventoryContext = createContext(null);
+
+const STORAGE_KEY_STATE = "boboc_game_state_v2";
+
+const INITIAL_FIRST_HOUSE_STATE = {
+    monsterPickedUp: false,
+    soupPickedUp: false,
+    coffeeSpilled: false,
+    cleanedClothes: {},
+    rezeMovedRevealed: false,
+    monsterGivenToReze: false,
+    extraMonsterReceived: false,
+    soupGivenToDonkey: false,
+    donkeyQuestComplete: false,
+    rezePlushPickedUp: false
+};
+
+const INITIAL_SECOND_HOUSE_STATE = {
+    nightMode: false,
+    rugMoved: false,
+    knightPickedUp: false,
+    keycapPickedUp: false,
+    memoryWon: false,
+    journalInspected: false,
+    paintingInspected: false
+};
+
+const INITIAL_TENT_STATE = {
+    ampOn: false,
+    rhythmWon: false,
+    ringPickedUp: false,
+    pickPickedUp: false
+};
+
+const INITIAL_VISITED_LOCATIONS = {
+    firsthouse: false,
+    secondhouse: false,
+    tent: false,
+    castle: false,
+    hideout: false
+};
 
 let instanceCounter = 0;
 function createItemInstance(itemId) {
@@ -14,6 +54,34 @@ function createItemInstance(itemId) {
         itemId: template.id,
         instanceId: `${template.id}_${Date.now()}_${instanceCounter}`
     };
+}
+
+function hydrateSavedSlots(rawSlots) {
+    if (!Array.isArray(rawSlots)) {
+        return Array(INVENTORY_SIZE).fill(null);
+    }
+    const hydrated = Array(INVENTORY_SIZE).fill(null);
+    for (let i = 0; i < Math.min(rawSlots.length, INVENTORY_SIZE); i++) {
+        const entry = rawSlots[i];
+        if (entry?.itemId && ITEMS_CATALOG[entry.itemId]) {
+            hydrated[i] = {
+                ...ITEMS_CATALOG[entry.itemId],
+                itemId: entry.itemId,
+                instanceId: entry.instanceId || `${entry.itemId}_restored_${i}`
+            };
+        }
+    }
+    return hydrated;
+}
+
+function loadSavedGameState() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY_STATE);
+        if (!raw) return null;
+        return JSON.parse(raw);
+    } catch {
+        return null;
+    }
 }
 
 function pickRandomKeyTreeIndex() {
@@ -40,50 +108,58 @@ function pickRandomKeyTreeIndex() {
 }
 
 export function InventoryProvider({ children }) {
-    const [slots, setSlots] = useState(() => Array(INVENTORY_SIZE).fill(null));
+    const [slots, setSlotsState] = useState(() =>
+        hydrateSavedSlots(loadSavedGameState()?.slots)
+    );
+    const slotsRef = useRef(slots);
+
+    const setSlots = useCallback((updater) => {
+        setSlotsState((prev) => {
+            const next = typeof updater === "function" ? updater(prev) : updater;
+            slotsRef.current = next;
+            return next;
+        });
+    }, []);
+
     const [selectedSlot, setSelectedSlot] = useState(0);
     const [draggedSlot, setDraggedSlot] = useState(null);
     const [worldItems, setWorldItems] = useState([]);
     const [shakenTrees, setShakenTrees] = useState({});
     const [shakingTreeIndex, setShakingTreeIndex] = useState(null);
     const [keyTreeIndex] = useState(() => pickRandomKeyTreeIndex());
-    const [chestUnlocked, setChestUnlocked] = useState(false);
-    const [castleCompleted, setCastleCompleted] = useState(false);
+    const [chestUnlocked, setChestUnlocked] = useState(() =>
+        Boolean(loadSavedGameState()?.chestUnlocked)
+    );
+    const [castleCompleted, setCastleCompleted] = useState(() =>
+        Boolean(loadSavedGameState()?.castleCompleted)
+    );
     const [notification, setNotification] = useState(null);
 
     // Persistent state for FirstHouse across route navigation
-    const [firstHouseState, setFirstHouseState] = useState({
-        monsterPickedUp: false,
-        soupPickedUp: false,
-        coffeeSpilled: false,
-        cleanedClothes: {}, // { shirt: true, pants: true, sock: true }
-        rezeMovedRevealed: false,
-        monsterGivenToReze: false,
-        extraMonsterReceived: false,
-        soupGivenToDonkey: false,
-        donkeyQuestComplete: false,
-        rezePlushPickedUp: false
-    });
+    const [firstHouseState, setFirstHouseState] = useState(() => ({
+        ...INITIAL_FIRST_HOUSE_STATE,
+        ...(loadSavedGameState()?.firstHouseState || {})
+    }));
+
+    // Persistent state for SecondHouse (Laurentiu's Sanctum) across route navigation
+    const [secondHouseState, setSecondHouseState] = useState(() => ({
+        ...INITIAL_SECOND_HOUSE_STATE,
+        ...(loadSavedGameState()?.secondHouseState || {})
+    }));
 
     // Persistent state for Victor's Tent across route navigation
-    const [tentState, setTentState] = useState({
-        ampOn: false,
-        rhythmWon: false
-    });
+    const [tentState, setTentState] = useState(() => ({
+        ...INITIAL_TENT_STATE,
+        ...(loadSavedGameState()?.tentState || {})
+    }));
 
     // Visited locations tracking for tasks / checklist
     const [visitedLocations, setVisitedLocations] = useState(() => {
         try {
             const saved = localStorage.getItem("boboc_visited_locations");
-            if (saved) return JSON.parse(saved);
+            if (saved) return { ...INITIAL_VISITED_LOCATIONS, ...JSON.parse(saved) };
         } catch {}
-        return {
-            firsthouse: false,
-            secondhouse: false,
-            tent: false,
-            castle: false,
-            hideout: false
-        };
+        return { ...INITIAL_VISITED_LOCATIONS };
     });
     const [resetCounter, setResetCounter] = useState(0);
 
@@ -97,6 +173,26 @@ export function InventoryProvider({ children }) {
             return next;
         });
     }, []);
+
+    // Persist game state to localStorage
+    useEffect(() => {
+        try {
+            const serializableSlots = slots.map((s) =>
+                s ? { itemId: s.itemId, instanceId: s.instanceId } : null
+            );
+            localStorage.setItem(
+                STORAGE_KEY_STATE,
+                JSON.stringify({
+                    slots: serializableSlots,
+                    chestUnlocked,
+                    castleCompleted,
+                    firstHouseState,
+                    secondHouseState,
+                    tentState
+                })
+            );
+        } catch {}
+    }, [slots, chestUnlocked, castleCompleted, firstHouseState, secondHouseState, tentState]);
 
     // Clean up any old localStorage keys from previous version
     useEffect(() => {
@@ -126,32 +222,30 @@ export function InventoryProvider({ children }) {
         const template = ITEMS_CATALOG[itemId];
         if (!template) return false;
 
-        const emptyIdx = slots.findIndex((s) => s === null);
+        const currentSlots = slotsRef.current;
+        const emptyIdx = currentSlots.findIndex((s) => s === null);
         if (emptyIdx === -1) {
-            showNotification("Inventory is full (9/9)!", "warning");
+            showNotification(`Inventory is full (${INVENTORY_SIZE}/${INVENTORY_SIZE})!`, "warning");
             return false;
         }
 
-        setSlots((prev) => {
-            const idx = prev.findIndex((s) => s === null);
-            if (idx === -1) return prev;
-            const next = [...prev];
-            next[idx] = createItemInstance(itemId);
-            return next;
-        });
+        const nextSlots = [...currentSlots];
+        nextSlots[emptyIdx] = createItemInstance(itemId);
+        slotsRef.current = nextSlots;
+        setSlotsState(nextSlots);
         setSelectedSlot(emptyIdx);
         return true;
-    }, [slots, showNotification]);
+    }, [showNotification]);
 
     const removeItemAtSlot = useCallback((slotIndex) => {
-        setSlots((prev) => {
-            if (slotIndex < 0 || slotIndex >= INVENTORY_SIZE || !prev[slotIndex]) {
-                return prev;
-            }
-            const next = [...prev];
-            next[slotIndex] = null;
-            return next;
-        });
+        const currentSlots = slotsRef.current;
+        if (slotIndex < 0 || slotIndex >= INVENTORY_SIZE || !currentSlots[slotIndex]) {
+            return;
+        }
+        const nextSlots = [...currentSlots];
+        nextSlots[slotIndex] = null;
+        slotsRef.current = nextSlots;
+        setSlotsState(nextSlots);
     }, []);
 
     const moveOrSwapSlots = useCallback((fromIndex, toIndex) => {
@@ -176,7 +270,7 @@ export function InventoryProvider({ children }) {
             return next;
         });
         setSelectedSlot(toIndex);
-    }, []);
+    }, [setSlots]);
 
     const shakeTree = useCallback((treeIndex, treeObj) => {
         if (shakenTrees[treeIndex]) return;
@@ -220,23 +314,26 @@ export function InventoryProvider({ children }) {
         const template = ITEMS_CATALOG[target.itemId];
         if (!template) return false;
 
-        const emptyIdx = slots.findIndex((s) => s === null);
+        const currentSlots = slotsRef.current;
+        const emptyIdx = currentSlots.findIndex((s) => s === null);
         if (emptyIdx === -1) {
-            showNotification("Inventory is full (9/9)!", "warning");
+            showNotification(`Inventory is full (${INVENTORY_SIZE}/${INVENTORY_SIZE})!`, "warning");
             return false;
         }
 
-        const nextSlots = [...slots];
+        const nextSlots = [...currentSlots];
         nextSlots[emptyIdx] = createItemInstance(target.itemId);
-        setSlots(nextSlots);
+        slotsRef.current = nextSlots;
+        setSlotsState(nextSlots);
         setWorldItems((prev) => prev.filter((w) => w.worldItemId !== worldItemId));
         setSelectedSlot(emptyIdx);
         showNotification(`Picked up ${template.name}!`, "success", template.icon);
         return true;
-    }, [worldItems, slots, showNotification]);
+    }, [worldItems, showNotification]);
 
     const interactItemWithWorldObject = useCallback((slotIndex, obj) => {
-        const item = slots[slotIndex];
+        const currentSlots = slotsRef.current;
+        const item = currentSlots[slotIndex];
         if (!item || !obj) return false;
 
         if (obj.type === "chest" && item.itemId === "chest_key") {
@@ -244,12 +341,10 @@ export function InventoryProvider({ children }) {
                 showNotification("The Chest is already unlocked!", "info");
                 return false;
             }
-            setSlots((prev) => {
-                const next = [...prev];
-                // Replace chest_key with the Motto Note found inside!
-                next[slotIndex] = createItemInstance("motto_note");
-                return next;
-            });
+            const nextSlots = [...currentSlots];
+            nextSlots[slotIndex] = createItemInstance("motto_note");
+            slotsRef.current = nextSlots;
+            setSlotsState(nextSlots);
             setChestUnlocked(true);
             showNotification(
                 "Unlocked the Chest! Found Motto Note: 'One prompt at a time'!",
@@ -260,10 +355,12 @@ export function InventoryProvider({ children }) {
         }
 
         return false;
-    }, [slots, chestUnlocked, showNotification]);
+    }, [chestUnlocked, showNotification]);
 
     const resetAllProgress = useCallback(() => {
-        setSlots(Array(INVENTORY_SIZE).fill(null));
+        const emptySlots = Array(INVENTORY_SIZE).fill(null);
+        slotsRef.current = emptySlots;
+        setSlotsState(emptySlots);
         setSelectedSlot(0);
         setDraggedSlot(null);
         setWorldItems([]);
@@ -271,32 +368,15 @@ export function InventoryProvider({ children }) {
         setShakingTreeIndex(null);
         setChestUnlocked(false);
         setCastleCompleted(false);
-        setFirstHouseState({
-            monsterPickedUp: false,
-            soupPickedUp: false,
-            coffeeSpilled: false,
-            cleanedClothes: {},
-            rezeMovedRevealed: false,
-            monsterGivenToReze: false,
-            extraMonsterReceived: false,
-            soupGivenToDonkey: false,
-            donkeyQuestComplete: false,
-            rezePlushPickedUp: false
-        });
-        setTentState({
-            ampOn: false,
-            rhythmWon: false
-        });
-        setVisitedLocations({
-            firsthouse: false,
-            secondhouse: false,
-            tent: false,
-            castle: false,
-            hideout: false
-        });
+        setFirstHouseState({ ...INITIAL_FIRST_HOUSE_STATE });
+        setSecondHouseState({ ...INITIAL_SECOND_HOUSE_STATE });
+        setTentState({ ...INITIAL_TENT_STATE });
+        setVisitedLocations({ ...INITIAL_VISITED_LOCATIONS });
         try {
             localStorage.removeItem("boboc_visited_locations");
             localStorage.removeItem("playerPos");
+            localStorage.removeItem(STORAGE_KEY_STATE);
+            localStorage.removeItem("boboc_hideout_delivered_v2");
         } catch {}
         setResetCounter((c) => c + 1);
         showNotification("Game restarted! Welcome back to Boboc Valley.", "info");
@@ -321,6 +401,8 @@ export function InventoryProvider({ children }) {
                 setCastleCompleted,
                 firstHouseState,
                 setFirstHouseState,
+                secondHouseState,
+                setSecondHouseState,
                 tentState,
                 setTentState,
                 visitedLocations,

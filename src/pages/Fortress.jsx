@@ -6,6 +6,17 @@ import bgImg from "./FortressComponents/assets/fortress.png";
 import charImg from "./FortressComponents/assets/stefan.png";
 import "./FortressComponents/Fortress.css";
 
+const MAX_HINTS = 3;
+
+const PHASE_HINTS = {
+    q1: "Hint: The swamp house with Donkey and Reze is the first house on the southwest side of the valley—it belongs to Leatxh!",
+    q2: "Hint: Double-click the black feline in Victor's Tent—he yells 'Don't call me a cat. I'm Morgana!'",
+    q3: "Hint: In Laurentiu's northern castle-house, moving the crimson rug reveals his prized Grandmaster's Golden Knight!",
+    q4: "Hint: Walk up to the Windmill in the valley and press Space or click it: 'Today seems especially windy!'",
+    challenge2:
+        "Hint: Shake the trees around Boboc Valley until the Chest Key drops, drag the Key onto the Chest to get the Motto Note ('One prompt at a time'), and give it to Stefan!"
+};
+
 export default function Fortress() {
     const navigate = useNavigate();
     const {
@@ -18,15 +29,13 @@ export default function Fortress() {
     } = useInventory();
 
     const [description, setDescription] = useState(true);
-    // Dialogue phases:
-    // "intro_0", "intro_lost", "intro_ready",
-    // "q1", "q1_wrong",
-    // "q2", "q2_wrong",
-    // "q3", "q3_wrong",
-    // "c1_cleared",
-    // "challenge2", "c2_wrong",
-    // "victory"
-    const [phase, setPhase] = useState(() => (castleCompleted ? "already_conquered" : "intro_0"));
+    const [phase, setPhase] = useState(() =>
+        castleCompleted ? "already_conquered" : "intro_0"
+    );
+    const [hintsUsed, setHintsUsed] = useState(0);
+    const [hintState, setHintState] = useState({ phase: null, text: null });
+
+    const activeHintText = hintState.phase === phase ? hintState.text : null;
 
     const hasMottoNote = slots.some((s) => s?.itemId === "motto_note");
     const mottoNoteSlotIndex = slots.findIndex((s) => s?.itemId === "motto_note");
@@ -34,6 +43,30 @@ export default function Fortress() {
     useEffect(() => {
         markLocationVisited("castle");
     }, [markLocationVisited]);
+
+    const isChallenge1Cleared =
+        castleCompleted ||
+        phase === "c1_cleared" ||
+        phase === "challenge2" ||
+        phase === "c2_wrong" ||
+        phase === "victory" ||
+        phase === "already_conquered";
+
+    const trialsRemaining = castleCompleted ? 0 : isChallenge1Cleared ? 1 : 2;
+    const hintsLeft = MAX_HINTS - hintsUsed;
+    const canUseHintOnPhase = Boolean(PHASE_HINTS[phase]);
+
+    const handleUseHint = () => {
+        if (!PHASE_HINTS[phase]) return;
+        if (activeHintText) return;
+        if (hintsUsed >= MAX_HINTS) {
+            showNotification("No hints remaining (0/3)!", "warning");
+            return;
+        }
+        setHintsUsed((prev) => prev + 1);
+        setHintState({ phase, text: PHASE_HINTS[phase] });
+        showNotification(`Used a hint! (${MAX_HINTS - (hintsUsed + 1)}/3 remaining)`, "info");
+    };
 
     const handleAnswerQ1 = (ans) => {
         if (ans === "Leatxh") {
@@ -54,11 +87,23 @@ export default function Fortress() {
     };
 
     const handleAnswerQ3 = (ans) => {
+        if (ans === "The Golden Knight") {
+            showNotification(
+                "Correct! The Strategist prizes the Golden Knight!",
+                "success"
+            );
+            setPhase("q4");
+        } else {
+            setPhase("q3_wrong");
+        }
+    };
+
+    const handleAnswerQ4 = (ans) => {
         if (ans === "Today seems especially windy!") {
             showNotification("Correct! 'Today seems especially windy!'", "success");
             setPhase("c1_cleared");
         } else {
-            setPhase("q3_wrong");
+            setPhase("q4_wrong");
         }
     };
 
@@ -68,7 +113,6 @@ export default function Fortress() {
             return;
         }
 
-        // Consume the motto note
         removeItemAtSlot(mottoNoteSlotIndex);
         setCastleCompleted(true);
         setPhase("victory");
@@ -85,7 +129,49 @@ export default function Fortress() {
                 backgroundImage: `url(${bgImg})`
             }}
         >
-            <LeaveButton />
+            {/* In the Trap Castle, the main Leave button only appears once conquered! */}
+            {castleCompleted && <LeaveButton />}
+
+            {/* Top Fortress Gate Lock & Remaining Trials Indicator */}
+            <div
+                style={{
+                    position: "fixed",
+                    top: 16,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    zIndex: 900,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 14,
+                    background: "rgba(22, 14, 27, 0.94)",
+                    border: `3px solid ${castleCompleted ? "#58a96b" : "#eab67c"}`,
+                    borderRadius: 8,
+                    padding: "6px 20px",
+                    color: "#ffd8a8",
+                    fontSize: "1.35rem",
+                    boxShadow: "0 6px 20px rgba(0,0,0,0.75)"
+                }}
+            >
+                <span>
+                    {castleCompleted
+                        ? "🔓 Fortress Gates Unlocked!"
+                        : "🔒 Fortress Gates Locked Behind You!"}
+                </span>
+                <span>|</span>
+                <span>
+                    Trials Remaining:{" "}
+                    <strong style={{ color: castleCompleted ? "#86efac" : "#fde047" }}>
+                        {trialsRemaining} / 2
+                    </strong>
+                </span>
+                <span>|</span>
+                <span>
+                    Hints Left:{" "}
+                    <strong style={{ color: hintsLeft > 0 ? "#67e8f9" : "#fca5a5" }}>
+                        {hintsLeft} / {MAX_HINTS}
+                    </strong>
+                </span>
+            </div>
 
             {/* Intro Welcome Popup (dismissible) */}
             {description && (
@@ -117,11 +203,20 @@ export default function Fortress() {
                         style={{
                             fontSize: "1.45rem",
                             color: "#ffe0b5",
-                            margin: 0
+                            margin: "0 0 12px 0"
                         }}
                     >
-                        The majestic castle overlooking Boboc Valley. Stefan cel Mare awaits to challenge worthy challengers.
+                        The heavy iron gates slam shut behind you! Stefan cel Mare awaits to test your knowledge of Boboc Valley and our sacred creed before you may leave.
                     </p>
+
+                    <button
+                        type="button"
+                        className="fortress-gold-btn"
+                        onClick={() => setDescription(false)}
+                        style={{ marginTop: 8 }}
+                    >
+                        ⚔️ Face Stefan cel Mare
+                    </button>
 
                     <button
                         style={{
@@ -155,15 +250,59 @@ export default function Fortress() {
 
                     {/* Themed Dialogue Box */}
                     <div className="fortress-dialogue-box">
-                        <div className="fortress-speaker-tag">
-                            ⚔️ Stefan cel Mare
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                marginBottom: 10
+                            }}
+                        >
+                            <div className="fortress-speaker-tag" style={{ margin: 0 }}>
+                                ⚔️ Stefan cel Mare
+                            </div>
+
+                            {canUseHintOnPhase && (
+                                <button
+                                    type="button"
+                                    className="fortress-btn"
+                                    onClick={handleUseHint}
+                                    disabled={hintsLeft <= 0 || Boolean(activeHintText)}
+                                    style={{
+                                        padding: "4px 14px",
+                                        fontSize: "1.25rem",
+                                        opacity:
+                                            hintsLeft <= 0 || Boolean(activeHintText)
+                                                ? 0.55
+                                                : 1
+                                    }}
+                                >
+                                    💡 Hint ({hintsLeft}/{MAX_HINTS})
+                                </button>
+                            )}
                         </div>
+
+                        {activeHintText && (
+                            <div
+                                style={{
+                                    background: "rgba(6, 182, 212, 0.16)",
+                                    border: "2px solid #22d3ee",
+                                    borderRadius: 6,
+                                    padding: "6px 12px",
+                                    marginBottom: 10,
+                                    color: "#a5f3fc",
+                                    fontSize: "1.35rem"
+                                }}
+                            >
+                                {activeHintText}
+                            </div>
+                        )}
 
                         {/* Already Conquered State */}
                         {phase === "already_conquered" && (
                             <>
                                 <p className="fortress-dialogue-text">
-                                    Welcome back, champion! You proved your worth with our sacred motto: "One prompt at a time". The mysterious Carriage is waiting for you in the valley!
+                                    Welcome back, champion! You proved your worth with our sacred motto: &ldquo;One prompt at a time&rdquo;. The mysterious Carriage is waiting for you in the valley!
                                 </p>
                                 <div className="fortress-actions-row">
                                     <button
@@ -181,7 +320,7 @@ export default function Fortress() {
                         {phase === "intro_0" && (
                             <>
                                 <p className="fortress-dialogue-text">
-                                    Halt! What are you doing here, stranger? The Grand Fortress is not a place for the unprepared.
+                                    Halt! The Fortress gates have locked behind you, stranger. None may exit until both royal trials are conquered!
                                 </p>
                                 <div className="fortress-actions-row">
                                     <button
@@ -189,7 +328,7 @@ export default function Fortress() {
                                         className="fortress-btn"
                                         onClick={() => setPhase("intro_ready")}
                                     >
-                                        I'm here to prove myself.
+                                        I&apos;m here to prove myself.
                                     </button>
                                     <button
                                         type="button"
@@ -206,7 +345,7 @@ export default function Fortress() {
                         {phase === "intro_lost" && (
                             <>
                                 <p className="fortress-dialogue-text">
-                                    Lost? Nobody wanders into this fortress by accident. You'll have to prove you're worthy of being here!
+                                    Lost? Nobody wanders into this fortress by accident. You&apos;ll have to prove you&apos;re worthy of being here!
                                 </p>
                                 <div className="fortress-actions-row">
                                     <button
@@ -224,7 +363,7 @@ export default function Fortress() {
                         {phase === "intro_ready" && (
                             <>
                                 <p className="fortress-dialogue-text">
-                                    Very well! I have two trials for you. The first tests your knowledge of Boboc Valley. Are you ready for Challenge 1?
+                                    Very well! I have two trials for you. The first tests your knowledge of every house in Boboc Valley. Are you ready for Challenge 1?
                                 </p>
                                 <div className="fortress-actions-row">
                                     <button
@@ -242,10 +381,10 @@ export default function Fortress() {
                         {phase === "q1" && (
                             <>
                                 <div className="fortress-badge-challenge">
-                                    Challenge 1 — Question 1/3
+                                    Challenge 1 — Question 1/4
                                 </div>
                                 <p className="fortress-dialogue-text">
-                                    "Who lives in Shrek's swamp house?"
+                                    &ldquo;Who lives in Shrek&apos;s swamp house?&rdquo;
                                 </p>
                                 <div className="fortress-options-grid">
                                     <button
@@ -298,10 +437,10 @@ export default function Fortress() {
                         {phase === "q2" && (
                             <>
                                 <div className="fortress-badge-challenge">
-                                    Challenge 1 — Question 2/3
+                                    Challenge 1 — Question 2/4
                                 </div>
                                 <p className="fortress-dialogue-text">
-                                    "What's the name of the cat?"
+                                    &ldquo;What&apos;s the name of the cat in the tent?&rdquo;
                                 </p>
                                 <div className="fortress-options-grid">
                                     <button
@@ -336,7 +475,7 @@ export default function Fortress() {
                                     Incorrect Answer
                                 </div>
                                 <p className="fortress-dialogue-text">
-                                    Wrong! That creature insisted in Victor's tent: "Don't call me a cat!"
+                                    Wrong! That creature insisted in Victor&apos;s tent: &ldquo;Don&apos;t call me a cat!&rdquo;
                                 </p>
                                 <div className="fortress-actions-row">
                                     <button
@@ -350,36 +489,36 @@ export default function Fortress() {
                             </>
                         )}
 
-                        {/* Question 3 */}
+                        {/* Question 3 (About Laurentiu's Sanctum) */}
                         {phase === "q3" && (
                             <>
                                 <div className="fortress-badge-challenge">
-                                    Challenge 1 — Question 3/3
+                                    Challenge 1 — Question 3/4
                                 </div>
                                 <p className="fortress-dialogue-text">
-                                    "What does the windmill say when you inspect it?"
+                                    &ldquo;Which chess piece is prized by the strategist in Laurentiu&apos;s northern sanctum?&rdquo;
                                 </p>
                                 <div className="fortress-options-grid">
                                     <button
                                         type="button"
                                         className="fortress-btn"
-                                        onClick={() => handleAnswerQ3("Today seems especially windy!")}
+                                        onClick={() => handleAnswerQ3("The Golden Knight")}
                                     >
-                                        Today seems especially windy!
+                                        The Golden Knight
                                     </button>
                                     <button
                                         type="button"
                                         className="fortress-btn"
-                                        onClick={() => handleAnswerQ3("The wind is howling!")}
+                                        onClick={() => handleAnswerQ3("The Obsidian Rook")}
                                     >
-                                        The wind is howling!
+                                        The Obsidian Rook
                                     </button>
                                     <button
                                         type="button"
                                         className="fortress-btn"
-                                        onClick={() => handleAnswerQ3("Not a breath of wind today...")}
+                                        onClick={() => handleAnswerQ3("The Silver Bishop")}
                                     >
-                                        Not a breath of wind today...
+                                        The Silver Bishop
                                     </button>
                                 </div>
                             </>
@@ -392,7 +531,7 @@ export default function Fortress() {
                                     Incorrect Answer
                                 </div>
                                 <p className="fortress-dialogue-text">
-                                    Nay! Go visit the windmill near the valley entrance and inspect it!
+                                    Not quite! Remember the framed painting and the piece hidden beneath the crimson rug in Laurentiu&apos;s sanctum!
                                 </p>
                                 <div className="fortress-actions-row">
                                     <button
@@ -406,14 +545,76 @@ export default function Fortress() {
                             </>
                         )}
 
+                        {/* Question 4 */}
+                        {phase === "q4" && (
+                            <>
+                                <div className="fortress-badge-challenge">
+                                    Challenge 1 — Question 4/4
+                                </div>
+                                <p className="fortress-dialogue-text">
+                                    &ldquo;What does the windmill say when you inspect it?&rdquo;
+                                </p>
+                                <div className="fortress-options-grid">
+                                    <button
+                                        type="button"
+                                        className="fortress-btn"
+                                        onClick={() =>
+                                            handleAnswerQ4("Today seems especially windy!")
+                                        }
+                                    >
+                                        Today seems especially windy!
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="fortress-btn"
+                                        onClick={() =>
+                                            handleAnswerQ4("The wind is howling!")
+                                        }
+                                    >
+                                        The wind is howling!
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="fortress-btn"
+                                        onClick={() =>
+                                            handleAnswerQ4("Not a breath of wind today...")
+                                        }
+                                    >
+                                        Not a breath of wind today...
+                                    </button>
+                                </div>
+                            </>
+                        )}
+
+                        {/* Question 4 Wrong */}
+                        {phase === "q4_wrong" && (
+                            <>
+                                <div className="fortress-badge-challenge fortress-badge-error">
+                                    Incorrect Answer
+                                </div>
+                                <p className="fortress-dialogue-text">
+                                    Nay! Go visit the windmill near the valley entrance and inspect it!
+                                </p>
+                                <div className="fortress-actions-row">
+                                    <button
+                                        type="button"
+                                        className="fortress-btn"
+                                        onClick={() => setPhase("q4")}
+                                    >
+                                        Try Question 4 Again
+                                    </button>
+                                </div>
+                            </>
+                        )}
+
                         {/* Challenge 1 Cleared */}
                         {phase === "c1_cleared" && (
                             <>
                                 <div className="fortress-badge-challenge fortress-badge-success">
-                                    ✓ Challenge 1 Cleared!
+                                    ✓ Challenge 1 Cleared! (1 Trial Remaining)
                                 </div>
                                 <p className="fortress-dialogue-text">
-                                    Impressive! You answered all three trivia questions correctly. You know Boboc Valley like the back of your hand!
+                                    Impressive! You answered all four trivia questions correctly. You know Boboc Valley and its residents like the back of your hand!
                                 </p>
                                 <div className="fortress-actions-row">
                                     <button
@@ -434,10 +635,13 @@ export default function Fortress() {
                                     Challenge 2 — The Sacred Motto
                                 </div>
                                 <p className="fortress-dialogue-text">
-                                    Stefan cel Mare asks: <strong style={{ color: "#ffd8a8" }}>"What is it the team stands for?"</strong>
+                                    Stefan cel Mare asks:{" "}
+                                    <strong style={{ color: "#ffd8a8" }}>
+                                        &ldquo;What is it the team stands for?&rdquo;
+                                    </strong>
                                 </p>
                                 <p className="fortress-dialogue-text is-hint">
-                                    Hand over the Motto Note with our sacred creed: "One prompt at a time". (Found inside the locked chest in the valley, opened with the tree key).
+                                    Hand over the Motto Note with our sacred creed: &ldquo;One prompt at a time&rdquo;. (Found inside the locked chest in the valley, opened with the tree key).
                                 </p>
 
                                 <div className="fortress-actions-row">
@@ -447,7 +651,7 @@ export default function Fortress() {
                                             className="fortress-gold-btn"
                                             onClick={handleGiveMottoNote}
                                         >
-                                            📜 Give Stefan cel Mare the Motto Note ("One prompt at a time")
+                                            📜 Give Stefan cel Mare the Motto Note (&ldquo;One prompt at a time&rdquo;)
                                         </button>
                                     ) : (
                                         <>
@@ -456,14 +660,14 @@ export default function Fortress() {
                                                 className="fortress-btn"
                                                 onClick={() => setPhase("c2_wrong")}
                                             >
-                                                "I don't have the note yet..."
+                                                &ldquo;I don&apos;t have the note yet...&rdquo;
                                             </button>
                                             <button
                                                 type="button"
                                                 className="fortress-btn"
                                                 onClick={() => navigate("/")}
                                             >
-                                                Leave to find the chest key
+                                                Temporary Reprieve: Search Valley for Chest Key
                                             </button>
                                         </>
                                     )}
@@ -503,13 +707,17 @@ export default function Fortress() {
                         {phase === "victory" && (
                             <>
                                 <div className="fortress-badge-challenge fortress-badge-success">
-                                    ★ Castle Conquered! ★
+                                    ★ Castle Conquered! Gates Unlocked! ★
                                 </div>
                                 <p className="fortress-dialogue-text">
-                                    "YES! <span style={{ color: "#ffd8a8" }}>'One prompt at a time'</span>! That is our creed! You have proven your worth beyond all doubt, true adventurer!"
+                                    &ldquo;YES!{" "}
+                                    <span style={{ color: "#ffd8a8" }}>
+                                        &lsquo;One prompt at a time&rsquo;
+                                    </span>
+                                    ! That is our creed! You have proven your worth beyond all doubt, true adventurer!&rdquo;
                                 </p>
                                 <p className="fortress-dialogue-text is-hint">
-                                    Behold! The mysterious Carriage has now appeared in the valley. The Secret Hideout awaits you!
+                                    Behold! The Fortress gates are open and the mysterious Carriage has arrived in the valley. The Secret Hideout awaits you!
                                 </p>
                                 <div className="fortress-actions-row">
                                     <button

@@ -7,10 +7,16 @@ const SPEED = 0.3;
 const SONG_URL = "/songs/song1.mp3"
 import { beatmap1 } from "./beatmaps/song1";
 
-export default function RhythmGame({}) {
+export default function RhythmGame() {
     const { slots, addItem, setTentState, showNotification } = useInventory();
     const [gameStart, setGameStart] = useState(false);
     const [gameFinished, setGameFinished] = useState(false);
+    const [songTime, setSongTime] = useState(0);
+    const [score, setScore] = useState(0);
+    const [feedback, setFeedback] = useState("");
+    const startTime = useRef(null);
+    const notes = useRef(beatmap1.map(n => ({ ...n })));
+    const [remaining, setRemaining] = useState(() => beatmap1.map(n => ({ ...n })));
 
     const [countDownTimer, setCountDownTimer] = useState(null);
 
@@ -53,14 +59,6 @@ export default function RhythmGame({}) {
 
         return () => clearTimeout(timer);
     }, [countDownTimer]);
-
-    const [songTime, setSongTime] = useState(0);
-    const [score, setScore] = useState(0);
-    const [feedback, setFeedback] = useState("");
-
-    const startTime = useRef(null);
-    const notes = useRef(beatmap1.map(n => ({ ...n })));
-    const [remaining, setRemaining] = useState(notes.current);
 
     const [pressedKeys, setPressedKeys] = useState(new Set());
     // Game loop

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="keyTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312e81" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <linearGradient id="keySide" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="50%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#22d3ee" flood-opacity="0.75" />
+    </filter>
+  </defs>
+  <g filter="url(#neonGlow)">
+    <!-- Outer RGB Mechanical Keycap Base -->
+    <rect x="16" y="22" width="88" height="82" rx="14" fill="url(#keySide)" stroke="#0f172a" stroke-width="4" />
+    <!-- Keycap Tapered Top Surface -->
+    <rect x="26" y="28" width="68" height="58" rx="10" fill="url(#keyTop)" stroke="#38bdf8" stroke-width="2.5" />
+    <!-- Glowing Code Brackets Symbol </> -->
+    <path d="M46 47 L36 57 L46 67" fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M74 47 L84 57 L74 67" fill="none" stroke="#f472b6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    <line x1="64" y1="44" x2="56" y2="70" stroke="#fde047" stroke-width="3.5" stroke-linecap="round" />
+  </g>
+</svg>

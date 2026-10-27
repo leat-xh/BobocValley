@@ -7,8 +7,11 @@ import soupImg from "../FirstHouseComponents/assets/soup_bowl.svg";
 import waffleImg from "../FirstHouseComponents/assets/donkey_waffle.svg";
 import rezePlushImg from "../FirstHouseComponents/assets/reze_plush.png";
 import rockstarImg from "../TentComponents/assets/rockstar.png";
+import goldenKnightImg from "../SecondHouseComponents/assets/golden_knight.svg";
+import mechanicalKeycapImg from "../SecondHouseComponents/assets/mechanical_keycap.svg";
+import strategistCrestImg from "../SecondHouseComponents/assets/strategist_crest.svg";
 
-export const INVENTORY_SIZE = 9;
+export const INVENTORY_SIZE = 12;
 
 export const ITEMS_CATALOG = {
     chest_key: {
@@ -65,6 +68,27 @@ export const ITEMS_CATALOG = {
         name: "Star-shaped Rock",
         description: "A precious stone obtained by completing the rhythm mini-game",
         icon: rockstarImg,
+        usableOn: []
+    },
+    golden_knight: {
+        id: "golden_knight",
+        name: "Grandmaster's Knight",
+        description: "A weighted gold chess knight prized for the Sicilian Defense.",
+        icon: goldenKnightImg,
+        usableOn: ["chessboard"]
+    },
+    mechanical_keycap: {
+        id: "mechanical_keycap",
+        name: "Artisan Keycap",
+        description: "A custom neon-lit mechanical keycap for midnight coding.",
+        icon: mechanicalKeycapImg,
+        usableOn: ["battlestation"]
+    },
+    strategist_crest: {
+        id: "strategist_crest",
+        name: "Strategist's Crest",
+        description: "A holographic mind crest earned by mastering the Memory Matrix.",
+        icon: strategistCrestImg,
         usableOn: []
     },
     motto_note: {

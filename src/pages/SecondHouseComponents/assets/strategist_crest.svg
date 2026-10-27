@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="crestGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    <filter id="crestGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#38bdf8" flood-opacity="0.8" />
+    </filter>
+  </defs>
+  <g filter="url(#crestGlow)">
+    <!-- Outer Octagonal Shield / Hologram Frame -->
+    <polygon points="60,10 98,28 108,68 84,104 36,104 12,68 22,28" fill="#0f172a" stroke="#fbbf24" stroke-width="4" />
+    <polygon points="60,18 91,33 99,66 79,96 41,96 21,66 29,33" fill="url(#crestGrad)" opacity="0.9" />
+    <!-- Inner Star & Circuit Lines -->
+    <polygon points="60,28 69,48 90,51 74,66 78,88 60,77 42,88 46,66 30,51 51,48" fill="#fef08a" stroke="#1e1b4b" stroke-width="2.5" />
+    <circle cx="60" cy="58" r="8" fill="#06b6d4" stroke="#0f172a" stroke-width="2" />
+  </g>
+</svg>

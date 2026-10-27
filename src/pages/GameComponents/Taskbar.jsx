@@ -8,7 +8,14 @@ import "./Taskbar.css";
 export default function Taskbar() {
     const [isOpen, setIsOpen] = useState(true);
     const location = useLocation();
-    const { visitedLocations, castleCompleted, firstHouseState, tentState, slots } = useInventory();
+    const {
+        visitedLocations,
+        castleCompleted,
+        firstHouseState,
+        secondHouseState,
+        tentState,
+        slots
+    } = useInventory();
 
     const isOutdoor = location.pathname === "/";
     const hasLeaveButton = location.pathname !== "/";
@@ -77,7 +84,9 @@ export default function Taskbar() {
         ];
     } else if (location.pathname === "/tent") {
         title = "Tent Tasks";
-        const hasPick = slots?.some((s) => s?.itemId === "guitar_pick");
+        const hasPick =
+            slots?.some((s) => s?.itemId === "guitar_pick") ||
+            Boolean(tentState?.pickPickedUp);
         tasks = [
             {
                 id: "pick",
@@ -96,12 +105,41 @@ export default function Taskbar() {
             }
         ];
     } else if (location.pathname === "/secondhouse") {
-        title = "Laurentiu's House";
+        title = "Sanctum Tasks";
+        const hasKnight =
+            Boolean(secondHouseState?.knightPickedUp) ||
+            slots?.some((s) => s?.itemId === "golden_knight");
+        const hasKeycap =
+            Boolean(secondHouseState?.keycapPickedUp) ||
+            slots?.some((s) => s?.itemId === "mechanical_keycap");
+        const hasCrest =
+            Boolean(secondHouseState?.memoryWon) ||
+            slots?.some((s) => s?.itemId === "strategist_crest");
+        const hasInspectedClues = Boolean(
+            secondHouseState?.paintingInspected ||
+                secondHouseState?.journalInspected
+        );
+
         tasks = [
             {
-                id: "secondhouse_done",
-                label: "Visit Laurentiu's House",
-                done: true
+                id: "sh_rug_knight",
+                label: "Move rug & find Golden Knight",
+                done: hasKnight
+            },
+            {
+                id: "sh_uv_keycap",
+                label: "Activate UV Mode & claim Keycap",
+                done: hasKeycap
+            },
+            {
+                id: "sh_clues",
+                label: "Inspect Painting or Journal",
+                done: hasInspectedClues
+            },
+            {
+                id: "sh_memory",
+                label: "Beat Tactical Memory Matrix",
+                done: hasCrest
             }
         ];
     } else if (location.pathname === "/fortress") {
